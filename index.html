@@ -1,1336 +1,1970 @@
-/* ==========================================
-   ALGORITHM VISUALIZER - FINAL CSS
-   Theme: Baby Pink & White (cute edition)
-========================================== */
+/* ==================================================
+   ALGORITHM VISUALIZER
+   Sorting + Searching
+================================================== */
 
-/* ---------- CUTE FONTS ---------- */
-@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap");
 
-/* ---------- RESET ---------- */
+/* ==================================================
+   1. COMMON FUNCTIONS
+================================================== */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+function setText(id, value) {
+    const element = document.getElementById(id);
 
-:root {
-    --primary: #e8739f;
-    --primary-light: #f08fb4;
-    --primary-dark: #d65a8a;
-    --background: #fff5f8;
-    --surface: #ffffff;
-    --surface-soft: #fff0f5;
-    --text: #4a2c3a;
-    --text-muted: #9a7186;
-    --border: #fad4e1;
-    --green: #35a66f;
-    --red: #ff8a8a;
-    --shadow: 0 5px 20px rgba(232, 115, 159, 0.07);
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
-/* Make buttons and form fields use the cute font too */
-button,
-select,
-input,
-textarea {
-    font-family: inherit;
-}
-
-/* Rounded, bubbly font for headings and key numbers */
-h1, h2, h3, h4,
-.tab-btn,
-.stat-card p,
-.complexity-grid p,
-.status,
-.feature-label {
-    font-family: "Fredoka", "Quicksand", "Segoe UI", Arial, sans-serif;
-}
-
-body {
-    font-family: "Quicksand", "Nunito", "Segoe UI", Arial, sans-serif;
-    background: var(--background);
-    color: var(--text);
-    line-height: 1.6;
-    min-height: 100vh;
-    transition: background 0.3s ease, color 0.3s ease;
-}
-
-/* ---------- HEADER ---------- */
-
-.header {
-    background: var(--surface);
-    border-bottom: 1px solid var(--border);
-    padding: 22px 6%;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    box-shadow: 0 3px 15px rgba(232, 115, 159, 0.04);
-}
-
-.header-content {
-    max-width: 1400px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 20px;
-}
-
-.header h1 {
-    font-size: 27px;
-    font-weight: 750;
-    color: var(--primary);
-    letter-spacing: -0.5px;
-}
-
-.header p {
-    color: var(--text-muted);
-    font-size: 14px;
-    margin-top: 3px;
-}
-
-.theme-btn {
-    background: var(--surface-soft);
-    color: var(--primary);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 10px 15px;
-    font-size: 13px;
-    font-weight: 600;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: 0.25s ease;
-}
-
-.theme-btn:hover {
-    background: #ffe0ec;
-    transform: translateY(-1px);
-}
-
-/* ---------- MAIN CONTAINER ---------- */
-
-.container {
-    max-width: 1400px;
-    width: 90%;
-    margin: 30px auto 55px;
-}
-
-/* ---------- NAVIGATION TABS ---------- */
-
-.tabs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding: 8px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 14px;
-    box-shadow: var(--shadow);
-    margin-bottom: 30px;
-}
-
-.tab-btn {
-    flex: 1;
-    min-width: 100px;
-    padding: 12px 18px;
-    border: none;
-    border-radius: 9px;
-    background: transparent;
-    color: var(--text-muted);
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: 0.25s ease;
-}
-
-.tab-btn:hover {
-    background: var(--surface-soft);
-    color: var(--primary);
-}
-
-.tab-btn.active {
-    background: var(--primary);
-    color: #ffffff;
-    box-shadow: 0 4px 12px rgba(232, 115, 159, 0.22);
-}
-
-/* ---------- SECTION HEADINGS ---------- */
-
-.section {
-    animation: fadeIn 0.35s ease;
-}
-
-.section-heading {
-    margin-bottom: 24px;
-}
-
-.section-heading h2 {
-    font-size: 26px;
-    color: var(--text);
-    margin-bottom: 5px;
-}
-
-.section-heading p {
-    color: var(--text-muted);
-    font-size: 15px;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(7px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    if (element) {
+        element.textContent = value;
     }
 }
 
-/* ---------- CARDS ---------- */
+function showSection(sectionId, button) {
+    document.querySelectorAll(".section").forEach(section => {
+        section.style.display = "none";
+    });
 
-.card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
-    margin-bottom: 22px;
-    box-shadow: var(--shadow);
-    min-width: 0;
+    const section = document.getElementById(sectionId);
+
+    if (section) {
+        section.style.display = "block";
+    }
+
+    document.querySelectorAll(".tab-btn").forEach(tab => {
+        tab.classList.remove("active");
+    });
+
+    if (button) {
+        button.classList.add("active");
+    } else {
+        document.querySelectorAll(".tab-btn").forEach(tab => {
+            if (tab.getAttribute("onclick")?.includes(sectionId)) {
+                tab.classList.add("active");
+            }
+        });
+    }
 }
 
-.card h3 {
-    font-size: 18px;
-    font-weight: 700;
-    margin-bottom: 18px;
-    color: var(--text);
+function toggleTheme() {
+    document.body.classList.toggle("dark-theme");
+
+    const button = document.querySelector(".theme-btn");
+
+    if (button) {
+        button.textContent = document.body.classList.contains("dark-theme")
+            ? "☀️ Toggle Theme"
+            : "🌙 Toggle Theme";
+    }
 }
 
-.controls-card {
-    padding: 25px;
+
+/* ==================================================
+   2. SORTING VISUALIZER VARIABLES
+================================================== */
+
+let arr = [];
+
+let sortingRunning = false;
+let sortingPaused = false;
+let sortingSpeed = 300;
+
+let comparisons = 0;
+let swaps = 0;
+let sortingRunId = 0;
+
+
+/* ==================================================
+   3. SORTING ARRAY GENERATION
+================================================== */
+
+function updateArraySize() {
+    const input = document.getElementById("arraySize");
+
+    if (!input) return;
+
+    setText("sizeValue", input.value);
 }
 
-.controls-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 24px;
-    margin-bottom: 24px;
-}
+function updateSpeed() {
+    const input = document.getElementById("speed");
 
-.control-group {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    min-width: 0;
-}
+    if (!input) return;
 
-.control-group label {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--text);
-}
+    const speed = Number(input.value);
 
-.control-group label span {
-    color: var(--primary);
-    font-weight: 700;
-}
+    sortingSpeed = Math.max(20, 900 - speed * 8);
 
-/* ---------- INPUTS & SELECTS ---------- */
-
-select,
-input[type="number"] {
-    width: 100%;
-    min-height: 44px;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    border-radius: 9px;
-    background: var(--surface);
-    color: var(--text);
-    font-family: inherit;
-    font-size: 14px;
-    outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-select:focus,
-input[type="number"]:focus {
-    border-color: var(--primary-light);
-    box-shadow: 0 0 0 3px rgba(240, 143, 180, 0.13);
-}
-
-input[type="range"] {
-    width: 100%;
-    accent-color: var(--primary);
-    cursor: pointer;
-    margin-top: 6px;
-}
-
-/* ---------- BUTTONS ---------- */
-
-.button-group {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 11px;
-    align-items: center;
-}
-
-.button-group button {
-    min-height: 42px;
-    padding: 10px 17px;
-    border-radius: 9px;
-    font-family: inherit;
-    font-size: 13px;
-    font-weight: 650;
-    cursor: pointer;
-    transition: transform 0.2s ease, background 0.2s ease,
-                box-shadow 0.2s ease;
-}
-
-.button-group button:hover {
-    transform: translateY(-2px);
-}
-
-.primary-btn {
-    background: var(--primary);
-    border: 1px solid var(--primary);
-    color: #ffffff;
-}
-
-.primary-btn:hover {
-    background: var(--primary-dark);
-    box-shadow: 0 4px 12px rgba(232, 115, 159, 0.2);
-}
-
-.secondary-btn {
-    background: var(--surface-soft);
-    color: var(--primary);
-    border: 1px solid var(--border);
-}
-
-.secondary-btn:hover {
-    background: #ffe0ec;
-}
-
-/* ---------- VISUALIZATION ---------- */
-
-.visualization-card {
-    padding: 25px;
-}
-
-.card-heading {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 15px;
-    margin-bottom: 18px;
-}
-
-.card-heading h3 {
-    margin-bottom: 0;
-}
-
-.status {
-    display: inline-block;
-    background: #ffe4ee;
-    color: var(--primary);
-    border-radius: 20px;
-    padding: 5px 12px;
-    font-size: 12px;
-    font-weight: 700;
-    white-space: nowrap;
-}
-
-/* Sorting bars */
-
-.array-container {
-    height: 300px;
-    width: 100%;
-    padding: 12px 5px 0;
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    overflow: hidden;
-    border-bottom: 2px solid var(--border);
-    border-radius: 5px;
-    background: linear-gradient(
-        to bottom,
-        transparent 24.8%,
-        rgba(240, 143, 180, 0.07) 25%,
-        transparent 25.2%,
-        transparent 49.8%,
-        rgba(240, 143, 180, 0.07) 50%,
-        transparent 50.2%,
-        transparent 74.8%,
-        rgba(240, 143, 180, 0.07) 75%,
-        transparent 75.2%
+    setText(
+        "speedValue",
+        speed >= 75 ? "Fast" : speed <= 25 ? "Slow" : "Medium"
     );
 }
 
-.array-bar {
-    min-height: 3px;
-    transition: height 0.15s ease, background 0.15s ease;
+function generateArray() {
+    if (sortingRunning) return;
+
+    const size = Number(document.getElementById("arraySize").value);
+
+    arr = [];
+
+    for (let i = 0; i < size; i++) {
+        arr.push(Math.floor(Math.random() * 220) + 30);
+    }
+
+    comparisons = 0;
+    swaps = 0;
+
+    updateSortingStats();
+    renderArray();
+
+    setText("stepText", "Step 0");
+    setText("status", "Ready");
+    setText("currentAction", "New array generated.");
+
+    updateSortingComplexity();
 }
 
-/* Searching boxes */
 
-.search-array {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    min-height: 100px;
-    padding: 20px 5px;
-    border-radius: 12px;
-    background: var(--surface-soft);
-    border: 1px dashed var(--border);
-    overflow-wrap: anywhere;
+/* ==================================================
+   4. SORTING ARRAY DISPLAY
+================================================== */
+
+function renderArray(activeIndices = [], sortedIndices = []) {
+    const container = document.getElementById("array");
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    arr.forEach((value, index) => {
+        const bar = document.createElement("div");
+
+        bar.className = "array-bar";
+        bar.style.height = value + "px";
+        bar.style.flex = "1";
+        bar.style.minWidth = "0";
+        bar.style.margin = "0 2px";
+        bar.style.borderRadius = "4px 4px 0 0";
+
+        if (sortedIndices.includes(index)) {
+            bar.style.background = "#35a66f";
+        } else if (activeIndices.includes(index)) {
+            bar.style.background = "#ff8a8a";
+        } else {
+            bar.style.background = "#756bd2";
+        }
+
+        bar.title = value;
+
+        container.appendChild(bar);
+    });
 }
 
-.search-array > div {
-    box-shadow: 0 3px 8px rgba(214, 90, 138, 0.12);
-    transition: background 0.2s ease, transform 0.2s ease;
+function updateSortingStats() {
+    setText("comparisons", comparisons);
+    setText("swaps", swaps);
 }
 
-.search-array > div:hover {
-    transform: translateY(-2px);
+function updateSortingComplexity() {
+    const algorithm = document.getElementById("algorithm")?.value;
+
+    const information = {
+        bubble: {
+            best: "O(n)",
+            average: "O(n²)",
+            worst: "O(n²)",
+            space: "O(1)",
+            explanation: "Bubble Sort repeatedly compares adjacent elements and swaps them when they are in the wrong order."
+        },
+        selection: {
+            best: "O(n²)",
+            average: "O(n²)",
+            worst: "O(n²)",
+            space: "O(1)",
+            explanation: "Selection Sort finds the minimum element in the unsorted part and places it at the beginning."
+        },
+        insertion: {
+            best: "O(n)",
+            average: "O(n²)",
+            worst: "O(n²)",
+            space: "O(1)",
+            explanation: "Insertion Sort takes each element and inserts it into its correct position in the sorted part."
+        },
+        quick: {
+            best: "O(n log n)",
+            average: "O(n log n)",
+            worst: "O(n²)",
+            space: "O(log n)",
+            explanation: "Quick Sort selects a pivot, partitions the array around it, and recursively sorts the partitions."
+        },
+        merge: {
+            best: "O(n log n)",
+            average: "O(n log n)",
+            worst: "O(n log n)",
+            space: "O(n)",
+            explanation: "Merge Sort divides the array into smaller parts, sorts them, and merges the sorted parts."
+        }
+    };
+
+    const info = information[algorithm];
+
+    if (!info) return;
+
+    setText("best", info.best);
+    setText("average", info.average);
+    setText("worst", info.worst);
+    setText("space", info.space);
+    setText("explanation", info.explanation);
 }
 
-/* ---------- LEGEND ---------- */
 
-.legend {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    margin-top: 20px;
+/* ==================================================
+   5. SORTING DELAY / PAUSE SUPPORT
+================================================== */
+
+function waitForSorting(runId) {
+    return new Promise(resolve => {
+        const check = () => {
+            if (!sortingRunning || runId !== sortingRunId) {
+                resolve(false);
+                return;
+            }
+
+            if (sortingPaused) {
+                setTimeout(check, 100);
+                return;
+            }
+
+            setTimeout(() => {
+                resolve(
+                    sortingRunning && runId === sortingRunId
+                );
+            }, sortingSpeed);
+        };
+
+        check();
+    });
 }
 
-.legend span {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-muted);
-    font-size: 12px;
+
+/* ==================================================
+   6. START SORTING
+================================================== */
+
+async function startAlgorithm() {
+    if (sortingRunning) return;
+
+    if (arr.length === 0) {
+        generateArray();
+    }
+
+    sortingRunning = true;
+    sortingPaused = false;
+
+    const runId = ++sortingRunId;
+    const algorithm = document.getElementById("algorithm").value;
+
+    comparisons = 0;
+    swaps = 0;
+
+    updateSortingStats();
+    updateSortingComplexity();
+
+    setText("status", "Running");
+    setText("stepText", "Step 0");
+    setText("currentAction", "Sorting started.");
+
+    try {
+        if (algorithm === "bubble") {
+            await bubbleSort(runId);
+        } else if (algorithm === "selection") {
+            await selectionSort(runId);
+        } else if (algorithm === "insertion") {
+            await insertionSort(runId);
+        } else if (algorithm === "quick") {
+            await quickSort(runId, 0, arr.length - 1);
+        } else if (algorithm === "merge") {
+            await mergeSort(runId, 0, arr.length - 1);
+        }
+
+        if (sortingRunning && runId === sortingRunId) {
+            renderArray([], arr.map((_, index) => index));
+
+            setText("status", "Completed");
+            setText("currentAction", "Sorting completed successfully!");
+        }
+    } finally {
+        if (runId === sortingRunId) {
+            sortingRunning = false;
+            sortingPaused = false;
+        }
+    }
 }
 
-.legend-box {
-    width: 12px;
-    height: 12px;
-    display: inline-block;
-    border-radius: 3px;
+
+/* ==================================================
+   7. BUBBLE SORT
+================================================== */
+
+async function bubbleSort(runId) {
+    for (let i = 0; i < arr.length - 1; i++) {
+        for (let j = 0; j < arr.length - i - 1; j++) {
+            if (!(await waitForSorting(runId))) return;
+
+            comparisons++;
+
+            setText("stepText", "Step " + comparisons);
+            setText(
+                "currentAction",
+                `Comparing ${arr[j]} and ${arr[j + 1]}`
+            );
+
+            renderArray([j, j + 1]);
+
+            if (arr[j] > arr[j + 1]) {
+                [arr[j], arr[j + 1]] = [arr[j + 1], arr[j]];
+                swaps++;
+            }
+
+            updateSortingStats();
+        }
+    }
 }
 
-.purple {
-    background: var(--primary-light);
+
+/* ==================================================
+   8. SELECTION SORT
+================================================== */
+
+async function selectionSort(runId) {
+    for (let i = 0; i < arr.length - 1; i++) {
+        let minIndex = i;
+
+        for (let j = i + 1; j < arr.length; j++) {
+            if (!(await waitForSorting(runId))) return;
+
+            comparisons++;
+
+            renderArray([minIndex, j]);
+
+            setText(
+                "currentAction",
+                `Finding the minimum element. Comparing ${arr[minIndex]} and ${arr[j]}.`
+            );
+
+            if (arr[j] < arr[minIndex]) {
+                minIndex = j;
+            }
+
+            setText("stepText", "Step " + comparisons);
+            updateSortingStats();
+        }
+
+        if (minIndex !== i) {
+            [arr[i], arr[minIndex]] = [arr[minIndex], arr[i]];
+            swaps++;
+        }
+
+        renderArray([i, minIndex]);
+        updateSortingStats();
+    }
 }
 
-.red {
-    background: var(--red);
+
+/* ==================================================
+   9. INSERTION SORT
+================================================== */
+
+async function insertionSort(runId) {
+    for (let i = 1; i < arr.length; i++) {
+        const key = arr[i];
+        let j = i - 1;
+
+        setText("currentAction", `Inserting element ${key} into its correct position.`);
+
+        while (j >= 0 && arr[j] > key) {
+            if (!(await waitForSorting(runId))) return;
+
+            comparisons++;
+
+            arr[j + 1] = arr[j];
+            swaps++;
+
+            renderArray([j, j + 1]);
+            updateSortingStats();
+
+            setText("stepText", "Step " + comparisons);
+
+            j--;
+        }
+
+        arr[j + 1] = key;
+
+        renderArray([j + 1]);
+    }
 }
 
-.green {
-    background: var(--green);
+
+/* ==================================================
+   10. QUICK SORT
+================================================== */
+
+async function quickSort(runId, low, high) {
+    if (low >= high) return;
+
+    if (!sortingRunning || runId !== sortingRunId) return;
+
+    const pivotIndex = await partition(runId, low, high);
+
+    if (!sortingRunning || runId !== sortingRunId) return;
+
+    await quickSort(runId, low, pivotIndex - 1);
+
+    if (!sortingRunning || runId !== sortingRunId) return;
+
+    await quickSort(runId, pivotIndex + 1, high);
 }
 
-/* ---------- STATISTICS ---------- */
+async function partition(runId, low, high) {
+    const pivot = arr[high];
+    let i = low - 1;
 
-.stats-grid {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 20px;
-    margin-bottom: 22px;
+    for (let j = low; j < high; j++) {
+        if (!(await waitForSorting(runId))) return low;
+
+        comparisons++;
+
+        renderArray([j, high]);
+
+        setText(
+            "currentAction",
+            `Comparing ${arr[j]} with pivot ${pivot}.`
+        );
+
+        setText("stepText", "Step " + comparisons);
+
+        if (arr[j] < pivot) {
+            i++;
+
+            if (i !== j) {
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+                swaps++;
+            }
+        }
+
+        updateSortingStats();
+    }
+
+    if (i + 1 !== high) {
+        [arr[i + 1], arr[high]] = [arr[high], arr[i + 1]];
+        swaps++;
+    }
+
+    updateSortingStats();
+
+    return i + 1;
 }
 
-.stat-card {
-    text-align: center;
-    padding: 22px 15px;
-    margin-bottom: 0;
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+
+/* ==================================================
+   11. MERGE SORT
+================================================== */
+
+async function mergeSort(runId, left, right) {
+    if (left >= right) return;
+
+    if (!sortingRunning || runId !== sortingRunId) return;
+
+    const mid = Math.floor((left + right) / 2);
+
+    await mergeSort(runId, left, mid);
+
+    if (!sortingRunning || runId !== sortingRunId) return;
+
+    await mergeSort(runId, mid + 1, right);
+
+    if (!sortingRunning || runId !== sortingRunId) return;
+
+    await merge(runId, left, mid, right);
 }
 
-.stat-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(232, 115, 159, 0.1);
+async function merge(runId, left, mid, right) {
+    const leftPart = arr.slice(left, mid + 1);
+    const rightPart = arr.slice(mid + 1, right + 1);
+
+    let i = 0;
+    let j = 0;
+    let k = left;
+
+    while (i < leftPart.length && j < rightPart.length) {
+        if (!(await waitForSorting(runId))) return;
+
+        comparisons++;
+
+        if (leftPart[i] <= rightPart[j]) {
+            arr[k] = leftPart[i];
+            i++;
+        } else {
+            arr[k] = rightPart[j];
+            j++;
+        }
+
+        setText("stepText", "Step " + comparisons);
+        setText("currentAction", "Merging sorted parts of the array.");
+
+        renderArray([k]);
+        updateSortingStats();
+
+        k++;
+    }
+
+    while (i < leftPart.length) {
+        arr[k] = leftPart[i];
+        i++;
+        k++;
+    }
+
+    while (j < rightPart.length) {
+        arr[k] = rightPart[j];
+        j++;
+        k++;
+    }
+
+    renderArray();
 }
 
-.stat-card h4 {
-    font-size: 13px;
-    color: var(--text-muted);
-    margin-bottom: 8px;
-    font-weight: 600;
+
+/* ==================================================
+   12. SORTING PAUSE / RESUME
+================================================== */
+
+function pauseAlgorithm() {
+    if (!sortingRunning) return;
+
+    sortingPaused = !sortingPaused;
+
+    setText("status", sortingPaused ? "Paused" : "Running");
+
+    document.querySelectorAll("button").forEach(button => {
+        if (button.getAttribute("onclick") === "pauseAlgorithm()") {
+            button.textContent = sortingPaused ? "▶ Resume" : "⏸ Pause";
+        }
+    });
 }
 
-.stat-card p {
-    color: var(--primary);
-    font-size: 27px;
-    font-weight: 750;
-    overflow-wrap: anywhere;
+
+/* ==================================================
+   13. RESET SORTING
+================================================== */
+
+function resetVisualizer() {
+    sortingRunId++;
+
+    sortingRunning = false;
+    sortingPaused = false;
+
+    comparisons = 0;
+    swaps = 0;
+
+    document.querySelectorAll("button").forEach(button => {
+        if (button.getAttribute("onclick") === "pauseAlgorithm()") {
+            button.textContent = "⏸ Pause";
+        }
+    });
+
+    setText("status", "Ready");
+    setText("stepText", "Step 0");
+    setText("currentAction", "Visualizer reset.");
+
+    generateArray();
 }
 
-/* ---------- INFORMATION ---------- */
 
-.information-card > p {
-    color: var(--text-muted);
-    font-size: 14px;
-    margin-bottom: 22px;
+/* ==================================================
+   14. SEARCHING VARIABLES
+================================================== */
+
+let searchArr = [];
+
+let searchRunning = false;
+let searchPaused = false;
+let searchSpeed = 400;
+let searchComparisons = 0;
+let searchRunId = 0;
+
+
+/* ==================================================
+   15. GENERATE SEARCH ARRAY
+================================================== */
+
+function generateSearchArray() {
+    if (searchRunning) return;
+
+    const algorithm = document.getElementById("searchAlgorithm").value;
+
+    searchArr = [];
+
+    for (let i = 0; i < 15; i++) {
+        searchArr.push(Math.floor(Math.random() * 90) + 10);
+    }
+
+    if (algorithm === "binary") {
+        searchArr.sort((a, b) => a - b);
+    }
+
+    setText("searchComparisons", 0);
+    setText("searchStepText", "Step 0");
+    setText("searchResult", "Ready");
+    setText("searchStatus", "Ready");
+    setText("targetDisplay", "—");
+    setText("searchAction", "Array generated. Enter a target and click Search.");
+
+    renderSearchArray();
 }
 
-.complexity-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-    margin-bottom: 22px;
+
+/* ==================================================
+   16. DISPLAY SEARCH ARRAY
+================================================== */
+
+function renderSearchArray(activeIndex = -1, foundIndex = -1) {
+    const container = document.getElementById("searchArray");
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    searchArr.forEach((value, index) => {
+        const item = document.createElement("div");
+
+        item.textContent = value;
+
+        item.style.width = "48px";
+        item.style.height = "48px";
+        item.style.display = "flex";
+        item.style.alignItems = "center";
+        item.style.justifyContent = "center";
+        item.style.borderRadius = "8px";
+        item.style.color = "#ffffff";
+        item.style.fontWeight = "700";
+        item.style.flexShrink = "0";
+
+        if (index === foundIndex) {
+            item.style.background = "#35a66f";
+        } else if (index === activeIndex) {
+            item.style.background = "#ff8a8a";
+        } else {
+            item.style.background = "#756bd2";
+        }
+
+        item.title = "Index: " + index;
+
+        container.appendChild(item);
+    });
 }
 
-.complexity-grid > div {
-    background: var(--surface-soft);
-    border: 1px solid var(--border);
-    border-radius: 11px;
-    padding: 15px;
+
+/* ==================================================
+   17. SEARCH COMPLEXITY
+================================================== */
+
+function changeSearchAlgorithm() {
+    if (searchRunning) return;
+
+    const algorithm = document.getElementById("searchAlgorithm").value;
+
+    if (algorithm === "linear") {
+        setText(
+            "searchExplanation",
+            "Linear Search checks each element one by one until the target is found or the array ends."
+        );
+
+        setText("searchBest", "O(1)");
+        setText("searchAverage", "O(n)");
+        setText("searchWorst", "O(n)");
+        setText("searchSpace", "O(1)");
+    } else {
+        setText(
+            "searchExplanation",
+            "Binary Search requires a sorted array. It checks the middle element and repeatedly halves the search range."
+        );
+
+        setText("searchBest", "O(1)");
+        setText("searchAverage", "O(log n)");
+        setText("searchWorst", "O(log n)");
+        setText("searchSpace", "O(1)");
+    }
+
+    generateSearchArray();
 }
 
-.complexity-grid h4 {
-    color: var(--text-muted);
-    font-size: 12px;
-    font-weight: 600;
-    margin-bottom: 7px;
+
+/* ==================================================
+   18. SEARCH SPEED
+================================================== */
+
+function updateSearchSpeed() {
+    const input = document.getElementById("searchSpeed");
+
+    if (!input) return;
+
+    const speed = Number(input.value);
+
+    searchSpeed = Math.max(40, 1000 - speed * 9);
+
+    setText(
+        "searchSpeedValue",
+        speed >= 75 ? "Fast" : speed <= 25 ? "Slow" : "Medium"
+    );
 }
 
-.complexity-grid p {
-    color: var(--primary);
-    font-size: 19px;
-    font-weight: 750;
-    overflow-wrap: anywhere;
+
+/* ==================================================
+   19. SEARCH DELAY / PAUSE SUPPORT
+================================================== */
+
+function waitForSearch(runId) {
+    return new Promise(resolve => {
+        const check = () => {
+            if (!searchRunning || runId !== searchRunId) {
+                resolve(false);
+                return;
+            }
+
+            if (searchPaused) {
+                setTimeout(check, 100);
+                return;
+            }
+
+            setTimeout(() => {
+                resolve(
+                    searchRunning && runId === searchRunId
+                );
+            }, searchSpeed);
+        };
+
+        check();
+    });
 }
 
-.action-box,
-.search-result-box {
-    background: var(--surface-soft);
-    border-left: 4px solid var(--primary);
-    padding: 16px 18px;
-    border-radius: 8px;
-    margin-top: 15px;
+
+/* ==================================================
+   20. START SEARCH
+================================================== */
+
+async function startSearch() {
+    if (searchRunning) return;
+
+    if (searchArr.length === 0) {
+        generateSearchArray();
+    }
+
+    const input = document.getElementById("target");
+
+    if (!input || input.value.trim() === "") {
+        setText("searchAction", "Please enter a target value first.");
+        return;
+    }
+
+    const target = Number(input.value);
+
+    if (!Number.isFinite(target)) {
+        setText("searchAction", "Please enter a valid number.");
+        return;
+    }
+
+    const algorithm = document.getElementById("searchAlgorithm").value;
+
+    if (algorithm === "binary") {
+        searchArr.sort((a, b) => a - b);
+        renderSearchArray();
+    }
+
+    searchRunning = true;
+    searchPaused = false;
+
+    const runId = ++searchRunId;
+
+    searchComparisons = 0;
+    let step = 0;
+    let foundIndex = -1;
+
+    setText("targetDisplay", target);
+    setText("searchComparisons", 0);
+    setText("searchStepText", "Step 0");
+    setText("searchResult", "Searching...");
+    setText("searchStatus", "Running");
+    setText("searchAction", "Searching for " + target + "...");
+
+    document.querySelectorAll("button").forEach(button => {
+        if (button.getAttribute("onclick") === "pauseSearch()") {
+            button.textContent = "⏸ Pause";
+        }
+    });
+
+    try {
+        if (algorithm === "linear") {
+
+            /* Linear Search */
+
+            for (let i = 0; i < searchArr.length; i++) {
+                if (!(await waitForSearch(runId))) return;
+
+                step++;
+                searchComparisons++;
+
+                renderSearchArray(i);
+
+                setText("searchStepText", "Step " + step);
+                setText("searchComparisons", searchComparisons);
+
+                setText(
+                    "searchAction",
+                    `Checking index ${i}: ${searchArr[i]}`
+                );
+
+                if (searchArr[i] === target) {
+                    foundIndex = i;
+                    break;
+                }
+            }
+
+        } else {
+
+            /* Binary Search */
+
+            let left = 0;
+            let right = searchArr.length - 1;
+
+            while (left <= right) {
+                if (!(await waitForSearch(runId))) return;
+
+                const mid = Math.floor((left + right) / 2);
+
+                step++;
+                searchComparisons++;
+
+                renderSearchArray(mid);
+
+                setText("searchStepText", "Step " + step);
+                setText("searchComparisons", searchComparisons);
+
+                setText(
+                    "searchAction",
+                    `Checking middle index ${mid}: ${searchArr[mid]}`
+                );
+
+                if (searchArr[mid] === target) {
+                    foundIndex = mid;
+                    break;
+                }
+
+                if (searchArr[mid] < target) {
+                    left = mid + 1;
+                } else {
+                    right = mid - 1;
+                }
+            }
+        }
+
+        if (!searchRunning || runId !== searchRunId) return;
+
+        if (foundIndex !== -1) {
+            renderSearchArray(-1, foundIndex);
+
+            setText("searchResult", "Found at index " + foundIndex);
+            setText("searchStatus", "Found");
+
+            setText(
+                "searchAction",
+                `Target ${target} found at index ${foundIndex}.`
+            );
+        } else {
+            renderSearchArray();
+
+            setText("searchResult", "Not Found");
+            setText("searchStatus", "Not Found");
+
+            setText(
+                "searchAction",
+                `Target ${target} is not present in the array.`
+            );
+        }
+
+    } finally {
+        if (runId === searchRunId) {
+            searchRunning = false;
+            searchPaused = false;
+        }
+    }
 }
 
-.action-box h4,
-.search-result-box h4 {
-    color: var(--primary);
-    font-size: 14px;
-    margin-bottom: 5px;
+
+/* ==================================================
+   21. SEARCH PAUSE / RESUME
+================================================== */
+
+function pauseSearch() {
+    if (!searchRunning) return;
+
+    searchPaused = !searchPaused;
+
+    setText("searchStatus", searchPaused ? "Paused" : "Running");
+
+    document.querySelectorAll("button").forEach(button => {
+        if (button.getAttribute("onclick") === "pauseSearch()") {
+            button.textContent = searchPaused ? "▶ Resume" : "⏸ Pause";
+        }
+    });
 }
 
-.action-box p,
-.search-result-box p {
-    color: var(--text-muted);
-    font-size: 13px;
-    overflow-wrap: anywhere;
+
+/* ==================================================
+   22. RESET SEARCH
+================================================== */
+
+function resetSearch() {
+    searchRunId++;
+
+    searchRunning = false;
+    searchPaused = false;
+    searchComparisons = 0;
+
+    document.querySelectorAll("button").forEach(button => {
+        if (button.getAttribute("onclick") === "pauseSearch()") {
+            button.textContent = "⏸ Pause";
+        }
+    });
+
+    setText("searchComparisons", 0);
+    setText("searchStepText", "Step 0");
+    setText("searchResult", "Ready");
+    setText("searchStatus", "Ready");
+    setText("targetDisplay", "—");
+    setText("searchAction", "Search reset.");
+
+    generateSearchArray();
 }
 
-/* ---------- COMING SOON ---------- */
 
-.coming-soon {
-    min-height: 300px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 40px 25px;
-}
+/* ==================================================
+   23. INITIALIZE THE APPLICATION
+================================================== */
 
-.coming-soon-icon {
-    font-size: 48px;
-    margin-bottom: 15px;
-}
+document.addEventListener("DOMContentLoaded", function () {
+    updateArraySize();
+    updateSpeed();
+    updateSortingComplexity();
+    generateArray();
 
-.coming-soon h3 {
-    margin-bottom: 10px;
-    font-size: 21px;
-}
+    updateSearchSpeed();
+    changeSearchAlgorithm();
 
-.coming-soon p {
-    color: var(--text-muted);
-    max-width: 500px;
-    font-size: 14px;
-    margin-bottom: 20px;
-}
-
-.feature-label {
-    display: inline-block;
-    background: #ffe4ee;
-    color: var(--primary);
-    padding: 7px 15px;
-    border-radius: 20px;
-    font-size: 12px;
-    font-weight: 700;
-}
-
-/* ---------- FOOTER ---------- */
-
-.footer {
-    text-align: center;
-    padding: 24px 15px;
-    background: var(--surface);
-    border-top: 1px solid var(--border);
-    color: var(--text-muted);
-    font-size: 13px;
-}
+    showSection("sorting");
+});
 
 /* ==========================================
-   DARK THEME
+   TREE VISUALIZER - BINARY SEARCH TREE
 ========================================== */
 
-body.dark-theme {
-    --background: #2a1822;
-    --surface: #38202d;
-    --surface-soft: #43283a;
-    --text: #ffeef5;
-    --text-muted: #e0b8cb;
-    --border: #5c3a4d;
-    --primary: #ff9fc3;
-    --primary-light: #f78fb8;
-    --primary-dark: #e0679a;
-    --shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+let treeRoot = null;
+let treeHighlights = new Set();
+let treeEdgesHighlighted = new Set();
+
+/* Create a new tree node */
+function createTreeNode(value) {
+    return {
+        value: value,
+        left: null,
+        right: null
+    };
 }
 
-body.dark-theme .header,
-body.dark-theme .footer {
-    background: var(--surface);
+/* Insert a value into the BST */
+function insertTreeNode(root, value) {
+    if (root === null) {
+        return createTreeNode(value);
+    }
+
+    if (value < root.value) {
+        root.left = insertTreeNode(root.left, value);
+    } else if (value > root.value) {
+        root.right = insertTreeNode(root.right, value);
+    }
+
+    return root;
 }
 
-body.dark-theme .theme-btn,
-body.dark-theme .secondary-btn {
-    background: var(--surface-soft);
-    color: var(--primary);
-    border-color: var(--border);
+/* Search for a value */
+function searchTreeNode(root, value) {
+    if (root === null) return null;
+    if (root.value === value) return root;
+
+    if (value < root.value) {
+        return searchTreeNode(root.left, value);
+    }
+
+    return searchTreeNode(root.right, value);
 }
 
-body.dark-theme .theme-btn:hover,
-body.dark-theme .secondary-btn:hover {
-    background: #523246;
+/* Find minimum node */
+function findMinimumNode(root) {
+    while (root && root.left) {
+        root = root.left;
+    }
+    return root;
 }
 
-body.dark-theme .tab-btn:hover {
-    background: var(--surface-soft);
+/* Delete a value from the BST */
+function deleteTreeNode(root, value) {
+    if (root === null) return null;
+
+    if (value < root.value) {
+        root.left = deleteTreeNode(root.left, value);
+    } else if (value > root.value) {
+        root.right = deleteTreeNode(root.right, value);
+    } else {
+        if (root.left === null) return root.right;
+        if (root.right === null) return root.left;
+
+        const successor = findMinimumNode(root.right);
+        root.value = successor.value;
+        root.right = deleteTreeNode(root.right, successor.value);
+    }
+
+    return root;
 }
 
-body.dark-theme .tab-btn.active {
-    background: var(--primary-dark);
-    color: #ffffff;
+/* Count tree nodes */
+function countTreeNodes(root) {
+    if (!root) return 0;
+    return 1 + countTreeNodes(root.left) + countTreeNodes(root.right);
 }
 
-body.dark-theme .status,
-body.dark-theme .feature-label {
-    background: #5a3349;
-    color: #ffc2d9;
+/* Calculate tree height in levels */
+function calculateTreeHeight(root) {
+    if (!root) return 0;
+
+    return 1 + Math.max(
+        calculateTreeHeight(root.left),
+        calculateTreeHeight(root.right)
+    );
 }
 
-body.dark-theme select,
-body.dark-theme input[type="number"] {
-    background: var(--surface-soft);
-    color: var(--text);
-    border-color: var(--border);
+/* Tree traversal */
+function getTreeTraversal(root, type, result = []) {
+    if (!root) return result;
+
+    if (type === "preorder") {
+        result.push(root.value);
+    }
+
+    getTreeTraversal(root.left, type, result);
+
+    if (type === "inorder") {
+        result.push(root.value);
+    }
+
+    getTreeTraversal(root.right, type, result);
+
+    if (type === "postorder") {
+        result.push(root.value);
+    }
+
+    return result;
 }
 
-body.dark-theme .array-container {
-    border-bottom-color: var(--border);
+/* Draw the tree using SVG */
+function renderTree() {
+    const canvas = document.getElementById("treeCanvas");
+    if (!canvas) return;
+
+    if (!treeRoot) {
+        canvas.innerHTML = `
+            <p class="tree-empty-message">
+                Your tree will appear here. Insert a number to get started.
+            </p>
+        `;
+        updateTreeStats();
+        return;
+    }
+
+    const nodeCount = countTreeNodes(treeRoot);
+    const height = calculateTreeHeight(treeRoot);
+    const spacingX = 65;
+    const spacingY = 85;
+    const margin = 40;
+
+    const width = Math.max(320, nodeCount * spacingX + margin * 2);
+    const heightSvg = Math.max(160, height * spacingY + margin * 2);
+
+    let nodes = [];
+    let edges = [];
+    let position = 0;
+
+    function arrange(node, depth) {
+        if (!node) return;
+
+        arrange(node.left, depth + 1);
+
+        node._x = margin + position * spacingX + spacingX / 2;
+        node._y = margin + depth * spacingY;
+        position++;
+
+        nodes.push(node);
+
+        if (node.left) {
+            edges.push({
+                x1: node._x,
+                y1: node._y,
+                x2: null,
+                y2: null,
+                child: node.left
+            });
+        }
+
+        if (node.right) {
+            edges.push({
+                x1: node._x,
+                y1: node._y,
+                x2: null,
+                y2: null,
+                child: node.right
+            });
+        }
+
+        arrange(node.right, depth + 1);
+    }
+
+    arrange(treeRoot, 0);
+
+    const nodePositions = new Map();
+    nodes.forEach(node => {
+        nodePositions.set(node.value, { x: node._x, y: node._y });
+    });
+
+    const edgeMarkup = edges.map(edge => {
+        const childPos = nodePositions.get(edge.child.value);
+        const highlighted = treeEdgesHighlighted.has(
+            `${edge.x1},${edge.y1}-${childPos.x},${childPos.y}`
+        );
+
+        return `
+            <line
+                class="tree-edge ${highlighted ? "highlight" : ""}"
+                x1="${edge.x1}" y1="${edge.y1}"
+                x2="${childPos.x}" y2="${childPos.y}"
+            />
+        `;
+    }).join("");
+
+    const nodeMarkup = nodes.map(node => {
+        const classes = [
+            "tree-node",
+            treeHighlights.has(node.value) ? "highlight" : ""
+        ].filter(Boolean).join(" ");
+
+        return `
+            <g class="${classes}">
+                <circle
+                    class="tree-node-circle"
+                    cx="${node._x}"
+                    cy="${node._y}"
+                    r="23"
+                />
+                <text
+                    class="tree-node-text"
+                    x="${node._x}"
+                    y="${node._y}"
+                >${node.value}</text>
+            </g>
+        `;
+    }).join("");
+
+    canvas.innerHTML = `
+        <svg
+            class="tree-svg"
+            width="${width}"
+            height="${heightSvg}"
+            viewBox="0 0 ${width} ${heightSvg}"
+            role="img"
+            aria-label="Binary Search Tree visualization"
+        >
+            ${edgeMarkup}
+            ${nodeMarkup}
+        </svg>
+    `;
+
+    updateTreeStats();
 }
 
-/* ---------- ACCESSIBILITY ---------- */
+/* Update tree statistics */
+function updateTreeStats() {
+    const count = document.getElementById("treeNodeCount");
+    const height = document.getElementById("treeHeight");
 
-button:focus-visible,
-select:focus-visible,
-input:focus-visible {
-    outline: 2px solid var(--primary-light);
-    outline-offset: 3px;
+    if (count) count.textContent = countTreeNodes(treeRoot);
+    if (height) height.textContent = calculateTreeHeight(treeRoot);
 }
 
-button:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
+/* Tree status and messages */
+function setTreeMessage(message, status = "Ready") {
+    const messageEl = document.getElementById("treeMessage");
+    const statusEl = document.getElementById("treeStatus");
+
+    if (messageEl) messageEl.textContent = message;
+    if (statusEl) statusEl.textContent = status;
 }
+
+/* Perform selected tree operation */
+function performTreeOperation() {
+    const input = document.getElementById("treeValue");
+    const operation = document.getElementById("treeOperation").value;
+
+    if (!input || input.value.trim() === "") {
+        setTreeMessage("Please enter a number first.", "Input Required");
+        return;
+    }
+
+    const value = Number(input.value);
+
+    if (!Number.isSafeInteger(value)) {
+        setTreeMessage("Please enter a valid whole number.", "Invalid Input");
+        return;
+    }
+
+    treeHighlights.clear();
+    treeEdgesHighlighted.clear();
+
+    if (operation === "insert") {
+        if (searchTreeNode(treeRoot, value)) {
+            setTreeMessage(
+                `${value} already exists. Duplicate values are not inserted.`,
+                "Duplicate"
+            );
+            return;
+        }
+
+        treeRoot = insertTreeNode(treeRoot, value);
+
+        treeHighlights.add(value);
+        document.getElementById("treeLastOperation").textContent =
+            `Insert ${value}`;
+
+        document.getElementById("treeExplanation").textContent =
+            `${value} was inserted following the Binary Search Tree rule: smaller values go left and larger values go right.`;
+
+        setTreeMessage(`${value} inserted successfully.`, "Inserted");
+    }
+
+    if (operation === "search") {
+        const found = searchTreeNode(treeRoot, value);
+
+        if (found) {
+            treeHighlights.add(value);
+            setTreeMessage(`${value} was found in the tree.`, "Found");
+        } else {
+            setTreeMessage(`${value} was not found in the tree.`, "Not Found");
+        }
+
+        document.getElementById("treeLastOperation").textContent =
+            `Search ${value}`;
+
+        document.getElementById("treeExplanation").textContent =
+            found
+                ? `Search successful: ${value} exists in the Binary Search Tree.`
+                : `Search unsuccessful: ${value} does not exist in the Binary Search Tree.`;
+    }
+
+    if (operation === "delete") {
+        if (!searchTreeNode(treeRoot, value)) {
+            setTreeMessage(`${value} does not exist in the tree.`, "Not Found");
+            return;
+        }
+
+        treeRoot = deleteTreeNode(treeRoot, value);
+
+        document.getElementById("treeLastOperation").textContent =
+            `Delete ${value}`;
+
+        document.getElementById("treeExplanation").textContent =
+            `${value} was deleted. The remaining tree still follows the Binary Search Tree rule.`;
+
+        setTreeMessage(`${value} deleted successfully.`, "Deleted");
+    }
+
+    renderTree();
+}
+
+/* Run Inorder, Preorder or Postorder */
+function runTreeTraversal() {
+    const type = document.getElementById("traversalType").value;
+
+    if (!treeRoot) {
+        setTreeMessage("Insert nodes before running a traversal.", "Empty Tree");
+        return;
+    }
+
+    const result = getTreeTraversal(treeRoot, type);
+
+    treeHighlights = new Set(result);
+
+    const output = document.getElementById("treeTraversalResult");
+    if (output) {
+        output.textContent =
+            `${type.charAt(0).toUpperCase() + type.slice(1)}: ` +
+            result.join(" → ");
+    }
+
+    document.getElementById("treeLastOperation").textContent =
+        `${type.charAt(0).toUpperCase() + type.slice(1)} Traversal`;
+
+    document.getElementById("treeExplanation").textContent = {
+        inorder: "Inorder visits Left → Root → Right. In a BST, this produces sorted values.",
+        preorder: "Preorder visits Root → Left → Right.",
+        postorder: "Postorder visits Left → Right → Root."
+    }[type];
+
+    setTreeMessage(`${type} traversal completed.`, "Completed");
+    renderTree();
+}
+
+/* Generate a sample BST */
+function generateSampleTree() {
+    treeRoot = null;
+    treeHighlights.clear();
+    treeEdgesHighlighted.clear();
+
+    [50, 30, 70, 20, 40, 60, 80].forEach(value => {
+        treeRoot = insertTreeNode(treeRoot, value);
+    });
+
+    document.getElementById("treeLastOperation").textContent = "Sample Tree";
+    document.getElementById("treeTraversalResult").textContent =
+        "Run a traversal to see the result.";
+
+    setTreeMessage("Sample Binary Search Tree created.", "Sample Loaded");
+    renderTree();
+}
+
+/* Reset tree */
+function resetTree() {
+    treeRoot = null;
+    treeHighlights.clear();
+    treeEdgesHighlighted.clear();
+
+    document.getElementById("treeLastOperation").textContent = "None";
+    document.getElementById("treeTraversalResult").textContent =
+        "Run a traversal to see the result.";
+
+    document.getElementById("treeExplanation").textContent =
+        "A Binary Search Tree stores smaller values on the left and larger values on the right.";
+
+    setTreeMessage("Tree reset. Insert a number to begin.", "Reset");
+    renderTree();
+}
+
 
 /* ==========================================
-   RESPONSIVE DESIGN
-========================================== */
-
-@media (max-width: 900px) {
-    .container {
-        width: 94%;
-    }
-
-    .controls-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .complexity-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .array-container {
-        height: 250px;
-    }
-}
-
-@media (max-width: 600px) {
-    .header {
-        padding: 17px 4%;
-    }
-
-    .header-content {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 12px;
-    }
-
-    .header h1 {
-        font-size: 23px;
-    }
-
-    .header p {
-        font-size: 12px;
-    }
-
-    .container {
-        width: 94%;
-        margin-top: 20px;
-    }
-
-    .tabs {
-        gap: 6px;
-        padding: 6px;
-        margin-bottom: 22px;
-    }
-
-    .tab-btn {
-        min-width: 0;
-        padding: 10px 8px;
-        font-size: 13px;
-    }
-
-    .section-heading h2 {
-        font-size: 23px;
-    }
-
-    .section-heading p {
-        font-size: 13px;
-    }
-
-    .card {
-        padding: 18px;
-        border-radius: 13px;
-    }
-
-    .controls-grid {
-        grid-template-columns: 1fr;
-        gap: 18px;
-    }
-
-    .button-group {
-        gap: 8px;
-    }
-
-    .button-group button {
-        flex: 1 1 42%;
-        padding: 10px;
-        font-size: 12px;
-    }
-
-    .card-heading {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 10px;
-    }
-
-    .array-container {
-        height: 210px;
-        padding-left: 0;
-        padding-right: 0;
-    }
-
-    .stats-grid {
-        grid-template-columns: 1fr;
-        gap: 12px;
-    }
-
-    .stat-card {
-        padding: 17px;
-    }
-
-    .stat-card p {
-        font-size: 24px;
-    }
-
-    .complexity-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 10px;
-    }
-
-    .complexity-grid > div {
-        padding: 12px;
-    }
-
-    .complexity-grid p {
-        font-size: 17px;
-    }
-
-    .legend {
-        gap: 12px;
-    }
-
-    .search-array {
-        gap: 7px;
-        padding: 15px 5px;
-    }
-
-    .search-array > div {
-        width: 39px !important;
-        height: 39px !important;
-        font-size: 12px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-        scroll-behavior: auto !important;
-        animation-duration: 0.01ms !important;
-        transition-duration: 0.01ms !important;
-    }
-}
-
-/* ========================================
-   TREE VISUALIZER
-======================================== */
-
-.tree-canvas {
-    width: 100%;
-    min-height: 320px;
-    padding: 24px;
-    overflow-x: auto;
-    overflow-y: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--card-bg, #ffffff);
-    border: 1px solid #f9d2e1;
-    border-radius: 14px;
-}
-
-.tree-empty-message,
-.graph-empty-message {
-    color: #a47a8f;
-    text-align: center;
-    line-height: 1.7;
-}
-
-.tree-svg {
-    display: block;
-    flex-shrink: 0;
-    overflow: visible;
-}
-
-.tree-edge {
-    stroke: #f2a7c3;
-    stroke-width: 2.5;
-    fill: none;
-    transition: stroke 0.25s ease;
-}
-
-.tree-edge.highlight {
-    stroke: #22a06b;
-    stroke-width: 4;
-}
-
-.tree-node {
-    cursor: default;
-}
-
-.tree-node-circle {
-    fill: #ffe3ee;
-    stroke: #ec7fa9;
-    stroke-width: 2.5;
-    transition: fill 0.25s ease, stroke 0.25s ease;
-}
-
-.tree-node-text {
-    fill: #7a2e50;
-    font-size: 15px;
-    font-weight: 700;
-    text-anchor: middle;
-    dominant-baseline: central;
-    pointer-events: none;
-}
-
-.tree-node.found .tree-node-circle,
-.tree-node.highlight .tree-node-circle,
-.tree-node.visited .tree-node-circle {
-    fill: #c9f7dc;
-    stroke: #20965d;
-}
-
-.tree-node.found .tree-node-text,
-.tree-node.highlight .tree-node-text,
-.tree-node.visited .tree-node-text {
-    fill: #155b3a;
-}
-
-.tree-node.active .tree-node-circle {
-    fill: #ffc2d9;
-    stroke: #d6447f;
-    stroke-width: 4;
-}
-
-.tree-node.active .tree-node-text {
-    fill: #5e1f3d;
-}
-
-.tree-canvas .tree-svg {
-    max-width: none;
-}
-
-
-/* ========================================
    GRAPH VISUALIZER
-======================================== */
+   Undirected graph using an adjacency list
+========================================== */
 
-.graph-canvas {
-    width: 100%;
-    min-height: 360px;
-    padding: 20px;
-    overflow: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: var(--card-bg, #ffffff);
-    border: 1px solid #f9d2e1;
-    border-radius: 14px;
+
+/* ==========================================
+   GRAPH VISUALIZER - IMPROVED VERSION
+   Undirected Graph + BFS + DFS + Shortest Path
+========================================== */
+
+let graph = {};
+let graphVisited = new Set();
+let graphPathEdges = new Set();
+
+/* Normalize node names */
+function normalizeGraphLabel(value) {
+    return String(value || "").trim().toUpperCase();
 }
 
-.graph-svg {
-    display: block;
-    flex-shrink: 0;
-    overflow: visible;
+/* Escape node labels before inserting into SVG */
+function escapeGraphText(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+    })[character]);
 }
 
-.graph-edge {
-    stroke: #f2a7c3;
-    stroke-width: 2.5;
-    fill: none;
-    transition: stroke 0.25s ease;
+/* Generate a unique key for an undirected edge */
+function getGraphEdgeKey(a, b) {
+    return [a, b].sort().join("|");
 }
 
-.graph-edge.highlight,
-.graph-edge.path-edge {
-    stroke: #22a06b;
-    stroke-width: 4;
+/* Show graph messages */
+function setGraphMessage(message, status = "Ready") {
+    const messageEl = document.getElementById("graphMessage");
+    const statusEl = document.getElementById("graphStatus");
+
+    if (messageEl) messageEl.textContent = message;
+    if (statusEl) statusEl.textContent = status;
 }
 
-.graph-node {
-    cursor: default;
+/* Update graph statistics */
+function updateGraphStats() {
+    const labels = Object.keys(graph);
+    const edgeCount = labels.reduce(
+        (total, label) => total + graph[label].length,
+        0
+    ) / 2;
+
+    const nodeCountEl = document.getElementById("graphNodeCount");
+    const edgeCountEl = document.getElementById("graphEdgeCount");
+
+    if (nodeCountEl) nodeCountEl.textContent = labels.length;
+    if (edgeCountEl) edgeCountEl.textContent = edgeCount;
 }
 
-.graph-node-circle {
-    fill: #ffe3ee;
-    stroke: #ec7fa9;
-    stroke-width: 2.5;
-    transition: fill 0.25s ease, stroke 0.25s ease;
-}
+/* ==========================================
+   GRAPH RENDERING
+========================================== */
 
-.graph-node-text {
-    fill: #7a2e50;
-    font-size: 15px;
-    font-weight: 700;
-    text-anchor: middle;
-    dominant-baseline: central;
-    pointer-events: none;
-}
+function renderGraph() {
+    const canvas = document.getElementById("graphCanvas");
+    if (!canvas) return;
 
-.graph-node.visited .graph-node-circle,
-.graph-node.highlight .graph-node-circle,
-.graph-node.path-node .graph-node-circle {
-    fill: #c9f7dc;
-    stroke: #20965d;
-}
+    const labels = Object.keys(graph);
 
-.graph-node.visited .graph-node-text,
-.graph-node.highlight .graph-node-text,
-.graph-node.path-node .graph-node-text {
-    fill: #155b3a;
-}
+    if (labels.length === 0) {
+        canvas.innerHTML = `
+            <div class="graph-empty-state">
+                <div class="graph-empty-icon">✧</div>
+                <h4>Your graph will appear here</h4>
+                <p>Add a node or load the sample graph to get started.</p>
+            </div>
+        `;
 
-.graph-node.start-node .graph-node-circle {
-    fill: #ffc2d9;
-    stroke: #d6447f;
-    stroke-width: 4;
-}
-
-.graph-node.target-node .graph-node-circle {
-    fill: #ffe4b8;
-    stroke: #dc8a18;
-    stroke-width: 3.5;
-}
-
-.graph-node.target-node .graph-node-text {
-    fill: #78420a;
-}
-
-
-/* ========================================
-   VISUALIZER LEGEND
-======================================== */
-
-.legend {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 18px;
-    margin-top: 18px;
-    color: var(--text-color, #7a5568);
-    font-size: 14px;
-}
-
-.legend span {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.legend-box {
-    width: 13px;
-    height: 13px;
-    display: inline-block;
-    border-radius: 4px;
-    background: #ffe3ee;
-    border: 2px solid #ec7fa9;
-}
-
-.legend-box.purple {
-    background: #ffe3ee;
-    border-color: #ec7fa9;
-}
-
-.legend-box.green {
-    background: #c9f7dc;
-    border-color: #20965d;
-}
-
-
-/* ========================================
-   TREE & GRAPH RESPONSIVE DESIGN
-======================================== */
-
-@media (max-width: 768px) {
-    .tree-canvas,
-    .graph-canvas {
-        min-height: 280px;
-        padding: 12px;
-        justify-content: flex-start;
+        updateGraphStats();
+        return;
     }
 
-    .tree-svg,
-    .graph-svg {
-        max-width: none;
+    /*
+       Place nodes around a circle.
+       Increase the radius as the graph grows so
+       nodes have enough room.
+    */
+    const nodeRadius = 25;
+    const circleRadius = Math.max(115, labels.length * 34);
+    const padding = 65;
+    const width = circleRadius * 2 + padding * 2;
+    const height = circleRadius * 2 + padding * 2;
+    const centerX = width / 2;
+    const centerY = height / 2;
+
+    const positions = {};
+
+    labels.forEach((label, index) => {
+        const angle =
+            (2 * Math.PI * index / labels.length) - Math.PI / 2;
+
+        positions[label] = {
+            x: centerX + circleRadius * Math.cos(angle),
+            y: centerY + circleRadius * Math.sin(angle)
+        };
+    });
+
+    /* Read start and target selections */
+    const start = normalizeGraphLabel(
+        document.getElementById("graphStart")?.value
+    );
+
+    const target = normalizeGraphLabel(
+        document.getElementById("graphTarget")?.value
+    );
+
+    /* Draw each undirected edge only once */
+    const edges = [];
+    const seenEdges = new Set();
+
+    labels.forEach(from => {
+        graph[from].forEach(to => {
+            const key = getGraphEdgeKey(from, to);
+
+            if (!seenEdges.has(key)) {
+                seenEdges.add(key);
+                edges.push({ from, to, key });
+            }
+        });
+    });
+
+    const edgeMarkup = edges.map(edge => {
+        const from = positions[edge.from];
+        const to = positions[edge.to];
+        const isPath = graphPathEdges.has(edge.key);
+
+        return `
+            <line
+                class="graph-edge ${isPath ? "path-edge" : ""}"
+                x1="${from.x}"
+                y1="${from.y}"
+                x2="${to.x}"
+                y2="${to.y}"
+            />
+        `;
+    }).join("");
+
+    const nodeMarkup = labels.map(label => {
+        const point = positions[label];
+
+        const classes = [
+            "graph-node",
+            graphVisited.has(label) ? "visited" : "",
+            label === start ? "start-node" : "",
+            label === target ? "target-node" : ""
+        ].filter(Boolean).join(" ");
+
+        return `
+            <g class="${classes}">
+                <circle
+                    class="graph-node-circle"
+                    cx="${point.x}"
+                    cy="${point.y}"
+                    r="${nodeRadius}"
+                />
+                <text
+                    class="graph-node-text"
+                    x="${point.x}"
+                    y="${point.y}"
+                >${escapeGraphText(label)}</text>
+            </g>
+        `;
+    }).join("");
+
+    canvas.innerHTML = `
+        <svg
+            class="graph-svg"
+            width="${width}"
+            height="${height}"
+            viewBox="0 0 ${width} ${height}"
+            role="img"
+            aria-label="Graph with ${labels.length} nodes and ${edges.length} edges"
+        >
+            ${edgeMarkup}
+            ${nodeMarkup}
+        </svg>
+    `;
+
+    updateGraphStats();
+}
+
+/* ==========================================
+   GRAPH OPERATIONS
+========================================== */
+
+/* Add a node */
+function addGraphNode(label) {
+    label = normalizeGraphLabel(label);
+
+    if (!label) {
+        return {
+            success: false,
+            message: "Enter a node name first."
+        };
     }
 
-    .legend {
-        gap: 12px;
-        font-size: 12px;
-    }
-}
-
-@media (max-width: 480px) {
-    .tree-canvas,
-    .graph-canvas {
-        min-height: 240px;
-        padding: 8px;
-    }
-}
-
-/* =========================================
-   GRAPH VISUALIZER - PINK & WHITE THEME
-========================================= */
-
-.graph-controls-card {
-    margin-bottom: 24px;
-}
-
-.graph-controls-card .card-heading {
-    margin-bottom: 20px;
-}
-
-.graph-helper-text {
-    margin-top: 16px;
-    color: #a47a8f;
-    font-size: 13px;
-    line-height: 1.6;
-}
-
-.graph-subtitle {
-    margin-top: 5px;
-    color: #a47a8f;
-    font-size: 13px;
-    font-weight: 400;
-}
-
-
-/* Graph canvas */
-
-.graph-visualization-card {
-    overflow: hidden;
-}
-
-.graph-canvas {
-    width: 100%;
-    min-height: 390px;
-    padding: 24px;
-    overflow: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(135deg, #fffafc 0%, #ffeef4 100%);
-    border: 1px solid #f9d2e1;
-    border-radius: 16px;
-    position: relative;
-}
-
-.graph-empty-state {
-    max-width: 320px;
-    padding: 24px;
-    text-align: center;
-}
-
-.graph-empty-icon {
-    width: 64px;
-    height: 64px;
-    margin: 0 auto 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 20px;
-    background: #ffe3ee;
-    color: #e0568e;
-    font-size: 34px;
-}
-
-.graph-empty-state h4 {
-    margin: 0 0 8px;
-    color: #7a2e50;
-    font-size: 17px;
-}
-
-.graph-empty-state p {
-    margin: 0;
-    color: #a47a8f;
-    font-size: 13px;
-    line-height: 1.7;
-}
-
-
-/* SVG graph and connections */
-
-.graph-svg {
-    display: block;
-    flex-shrink: 0;
-    overflow: visible;
-}
-
-.graph-edge {
-    stroke: #f2a7c3;
-    stroke-width: 2.5;
-    fill: none;
-    stroke-linecap: round;
-    transition: stroke 0.25s ease, stroke-width 0.25s ease;
-}
-
-.graph-edge.highlight,
-.graph-edge.path-edge {
-    stroke: #22a06b;
-    stroke-width: 4;
-}
-
-
-/* Graph nodes */
-
-.graph-node {
-    cursor: default;
-}
-
-.graph-node-circle {
-    fill: #ffe3ee;
-    stroke: #ec7fa9;
-    stroke-width: 2.5;
-    transition: fill 0.25s ease, stroke 0.25s ease;
-}
-
-.graph-node-text {
-    fill: #7a2e50;
-    font-size: 15px;
-    font-weight: 700;
-    text-anchor: middle;
-    dominant-baseline: central;
-    pointer-events: none;
-}
-
-.graph-node.visited .graph-node-circle,
-.graph-node.highlight .graph-node-circle,
-.graph-node.path-node .graph-node-circle {
-    fill: #c9f7dc;
-    stroke: #20965d;
-}
-
-.graph-node.visited .graph-node-text,
-.graph-node.highlight .graph-node-text,
-.graph-node.path-node .graph-node-text {
-    fill: #155b3a;
-}
-
-.graph-node.start-node .graph-node-circle {
-    fill: #ffc2d9;
-    stroke: #d6447f;
-    stroke-width: 4;
-}
-
-.graph-node.target-node .graph-node-circle {
-    fill: #ffe4b8;
-    stroke: #dc8a18;
-    stroke-width: 3.5;
-}
-
-.graph-node.target-node .graph-node-text {
-    fill: #78420a;
-}
-
-
-/* Legend */
-
-.graph-legend {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 18px;
-    margin-top: 18px;
-    color: var(--text-color, #7a5568);
-    font-size: 13px;
-}
-
-.graph-legend span {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-}
-
-
-/* Graph statistics */
-
-.graph-stats-grid {
-    margin-top: 24px;
-}
-
-.graph-stat-caption {
-    display: block;
-    margin-top: 5px;
-    color: #a47a8f;
-    font-size: 12px;
-    font-weight: 400;
-}
-
-
-/* Results */
-
-.graph-results-card {
-    margin-top: 24px;
-}
-
-.graph-results-card .action-box,
-.graph-results-card .search-result-box {
-    margin-top: 16px;
-}
-
-.graph-results-card p {
-    line-height: 1.7;
-    overflow-wrap: anywhere;
-}
-
-
-/* Responsive layout */
-
-@media (max-width: 768px) {
-    .graph-canvas {
-        min-height: 300px;
-        padding: 12px;
-        justify-content: flex-start;
+    if (graph[label]) {
+        return {
+            success: false,
+            message: `Node ${label} already exists.`
+        };
     }
 
-    .graph-svg {
-        max-width: none;
-    }
+    graph[label] = [];
 
-    .graph-legend {
-        gap: 12px;
-        font-size: 12px;
-    }
-
-    .graph-empty-state {
-        margin: auto;
-    }
+    return {
+        success: true,
+        message: `Node ${label} added successfully.`
+    };
 }
 
-@media (max-width: 480px) {
-    .graph-canvas {
-        min-height: 260px;
-        padding: 8px;
+/* Connect two existing nodes */
+function addGraphEdge(from, to) {
+    from = normalizeGraphLabel(from);
+    to = normalizeGraphLabel(to);
+
+    if (!from || !to) {
+        return {
+            success: false,
+            message: "Enter both node names to create a connection."
+        };
     }
 
-    .graph-empty-icon {
-        width: 52px;
-        height: 52px;
-        font-size: 28px;
+    if (!graph[from] || !graph[to]) {
+        return {
+            success: false,
+            message: "Add both nodes before connecting them."
+        };
     }
 
-    .graph-empty-state h4 {
-        font-size: 15px;
+    if (from === to) {
+        return {
+            success: false,
+            message: "A node cannot connect to itself."
+        };
     }
-}
-/* Graph Visualizer Input Fields */
-input[type="text"],
-input:not([type]) {
-    width: 100%;
-    box-sizing: border-box;
-    height: 48px;
-    padding: 12px 16px;
-    border: 1px solid #f9d2e1;
-    border-radius: 12px;
-    background-color: #ffffff;
-    color: #4a2c3a;
-    font-size: 15px;
-    font-family: inherit;
-    outline: none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+    if (graph[from].includes(to)) {
+        return {
+            success: false,
+            message: `Connection ${from} — ${to} already exists.`
+        };
+    }
+
+    graph[from].push(to);
+    graph[to].push(from);
+
+    return {
+        success: true,
+        message: `Connection ${from} — ${to} created successfully.`
+    };
 }
 
-/* Placeholder */
-input[type="text"]::placeholder,
-input:not([type])::placeholder {
-    color: #c0a0b0;
+/* Remove a node and all its connections */
+function removeGraphNode(label) {
+    label = normalizeGraphLabel(label);
+
+    if (!graph[label]) {
+        return {
+            success: false,
+            message: `Node ${label || "(empty)"} does not exist.`
+        };
+    }
+
+    Object.keys(graph).forEach(other => {
+        graph[other] = graph[other].filter(
+            neighbor => neighbor !== label
+        );
+    });
+
+    delete graph[label];
+
+    graphVisited.clear();
+    graphPathEdges.clear();
+
+    return {
+        success: true,
+        message: `Node ${label} and its connections were removed.`
+    };
 }
 
-/* Focus effect */
-input[type="text"]:focus,
-input:not([type]):focus {
-    border-color: #e8739f;
-    box-shadow: 0 0 0 3px rgba(232, 115, 159, 0.12);
+/* Apply the selected graph operation */
+function performGraphOperation() {
+    const operation = document.getElementById("graphOperation").value;
+
+    const first = normalizeGraphLabel(
+        document.getElementById("graphNode").value
+    );
+
+    const second = normalizeGraphLabel(
+        document.getElementById("graphNode2").value
+    );
+
+    let result;
+
+    if (operation === "addNode") {
+        result = addGraphNode(first);
+    } else if (operation === "addEdge") {
+        result = addGraphEdge(first, second);
+    } else if (operation === "removeNode") {
+        result = removeGraphNode(first);
+    } else {
+        setGraphMessage("Please select a valid operation.", "Error");
+        return;
+    }
+
+    if (result.success) {
+        graphVisited.clear();
+        graphPathEdges.clear();
+
+        const lastAction = {
+            addNode: "Add Node",
+            addEdge: "Connect Nodes",
+            removeNode: "Remove Node"
+        };
+
+        document.getElementById("graphLastAlgorithm").textContent =
+            lastAction[operation];
+
+        document.getElementById("graphTraversalResult").textContent =
+            "Run BFS or DFS to see the traversal order.";
+
+        renderGraph();
+    }
+
+    setGraphMessage(
+        result.message,
+        result.success ? "Completed" : "Notice"
+    );
 }
 
-/* Make input fields consistent inside graph forms */
-#graph input {
-    width: 100%;
-    box-sizing: border-box;
+/* ==========================================
+   BFS - BREADTH FIRST SEARCH
+========================================== */
+
+function graphBFS(start) {
+    const queue = [start];
+    const visited = new Set([start]);
+    const order = [];
+
+    while (queue.length > 0) {
+        const current = queue.shift();
+        order.push(current);
+
+        graph[current].forEach(neighbor => {
+            if (!visited.has(neighbor)) {
+                visited.add(neighbor);
+                queue.push(neighbor);
+            }
+        });
+    }
+
+    return order;
 }
+
+/* ==========================================
+   DFS - DEPTH FIRST SEARCH
+========================================== */
+
+function graphDFS(start) {
+    const visited = new Set();
+    const order = [];
+
+    function visit(current) {
+        if (visited.has(current)) return;
+
+        visited.add(current);
+        order.push(current);
+
+        graph[current].forEach(neighbor => {
+            if (!visited.has(neighbor)) {
+                visit(neighbor);
+            }
+        });
+    }
+
+    visit(start);
+    return order;
+}
+
+/* Run selected traversal */
+function runGraphTraversal() {
+    const labels = Object.keys(graph);
+
+    if (labels.length === 0) {
+        setGraphMessage("Load a sample or add nodes first.", "Empty Graph");
+        return;
+    }
+
+    const requestedStart = normalizeGraphLabel(
+        document.getElementById("graphStart").value
+    );
+
+    const start = requestedStart || labels[0];
+
+    if (!graph[start]) {
+        setGraphMessage(
+            `Start node ${start} does not exist. Add it first.`,
+            "Invalid Node"
+        );
+        return;
+    }
+
+    const algorithm = document.getElementById("graphAlgorithm").value;
+
+    const order = algorithm === "bfs"
+        ? graphBFS(start)
+        : graphDFS(start);
+
+    graphVisited = new Set(order);
+    graphPathEdges.clear();
+
+    document.getElementById("graphStart").value = start;
+    document.getElementById("graphLastAlgorithm").textContent =
+        algorithm.toUpperCase();
+
+    document.getElementById("graphTraversalResult").textContent =
+        `${algorithm.toUpperCase()} traversal: ${order.join(" → ")}`;
+
+    setGraphMessage(
+        `${algorithm.toUpperCase()} completed. ${order.length} reachable node(s) visited.`,
+        "Completed"
+    );
+
+    renderGraph();
+}
+
+/* ==========================================
+   SHORTEST PATH - BREADTH FIRST SEARCH
+========================================== */
+
+function findGraphPath() {
+    const start = normalizeGraphLabel(
+        document.getElementById("graphStart").value
+    );
+
+    const target = normalizeGraphLabel(
+        document.getElementById("graphTarget").value
+    );
+
+    if (!start || !target) {
+        setGraphMessage(
+            "Enter both a start node and a target node.",
+            "Input Required"
+        );
+        return;
+    }
+
+    if (!graph[start] || !graph[target]) {
+        setGraphMessage(
+            "Both start and target nodes must exist in the graph.",
+            "Invalid Node"
+        );
+        return;
+    }
+
+    const queue = [start];
+    const parent = { [start]: null };
+    const visited = new Set([start]);
+
+    while (queue.length > 0) {
+        const current = queue.shift();
+
+        if (current === target) break;
+
+        graph[current].forEach(neighbor => {
+            if (!visited.has(neighbor)) {
+                visited.add(neighbor);
+                parent[neighbor] = current;
+                queue.push(neighbor);
+            }
+        });
+    }
+
+    graphVisited = new Set(visited);
+    graphPathEdges.clear();
+
+    document.getElementById("graphLastAlgorithm").textContent =
+        "Shortest Path";
+
+    if (!visited.has(target)) {
+        document.getElementById("graphTraversalResult").textContent =
+            `No path exists from ${start} to ${target}.`;
+
+        setGraphMessage(
+            `No connection path found between ${start} and ${target}.`,
+            "No Path"
+        );
+
+        renderGraph();
+        return;
+    }
+
+    const path = [];
+    let current = target;
+
+    while (current !== null) {
+        path.unshift(current);
+        current = parent[current];
+    }
+
+    graphVisited = new Set(path);
+
+    for (let i = 0; i < path.length - 1; i++) {
+        graphPathEdges.add(getGraphEdgeKey(path[i], path[i + 1]));
+    }
+
+    document.getElementById("graphTraversalResult").textContent =
+        `Shortest path: ${path.join(" → ")} (${path.length - 1} edge(s))`;
+
+    setGraphMessage(
+        `Path found from ${start} to ${target} with ${path.length - 1} edge(s).`,
+        "Path Found"
+    );
+
+    renderGraph();
+}
+
+/* ==========================================
+   SAMPLE GRAPH
+========================================== */
+
+function generateSampleGraph() {
+    graph = {};
+    graphVisited.clear();
+    graphPathEdges.clear();
+
+    ["A", "B", "C", "D", "E", "F"].forEach(label => {
+        graph[label] = [];
+    });
+
+    const sampleEdges = [
+        ["A", "B"],
+        ["A", "C"],
+        ["B", "D"],
+        ["B", "E"],
+        ["C", "F"],
+        ["E", "F"]
+    ];
+
+    sampleEdges.forEach(([from, to]) => {
+        graph[from].push(to);
+        graph[to].push(from);
+    });
+
+    document.getElementById("graphStart").value = "A";
+    document.getElementById("graphTarget").value = "F";
+
+    document.getElementById("graphLastAlgorithm").textContent =
+        "Sample Graph";
+
+    document.getElementById("graphTraversalResult").textContent =
+        "Run BFS or DFS to see the traversal order.";
+
+    setGraphMessage(
+        "Sample graph loaded. Try BFS, DFS or Find Shortest Path.",
+        "Sample Loaded"
+    );
+
+    renderGraph();
+}
+
+/* ==========================================
+   RESET GRAPH
+========================================== */
+
+function resetGraph() {
+    graph = {};
+    graphVisited.clear();
+    graphPathEdges.clear();
+
+    document.getElementById("graphLastAlgorithm").textContent = "None";
+
+    document.getElementById("graphTraversalResult").textContent =
+        "Run BFS or DFS to see the traversal order.";
+
+    document.getElementById("graphStart").value = "";
+    document.getElementById("graphTarget").value = "";
+    document.getElementById("graphNode").value = "";
+    document.getElementById("graphNode2").value = "";
+
+    setGraphMessage("Graph cleared. Add nodes to get started.", "Reset");
+
+    renderGraph();
+}
+
+
+/* ==========================================
+   INITIALIZE TREE AND GRAPH VISUALIZERS
+========================================== */
+
+document.addEventListener("DOMContentLoaded", function () {
+    renderTree();
+    renderGraph();
+});
