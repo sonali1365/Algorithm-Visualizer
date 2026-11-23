@@ -1,692 +1,1336 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Algorithm Visualizer</title>
+/* ==========================================
+   ALGORITHM VISUALIZER - FINAL CSS
+   Theme: Baby Pink & White (cute edition)
+========================================== */
 
-<style>
+/* ---------- CUTE FONTS ---------- */
+@import url("https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Quicksand:wght@400;500;600;700&display=swap");
+
+/* ---------- RESET ---------- */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+:root {
+    --primary: #e8739f;
+    --primary-light: #f08fb4;
+    --primary-dark: #d65a8a;
+    --background: #fff5f8;
+    --surface: #ffffff;
+    --surface-soft: #fff0f5;
+    --text: #4a2c3a;
+    --text-muted: #9a7186;
+    --border: #fad4e1;
+    --green: #35a66f;
+    --red: #ff8a8a;
+    --shadow: 0 5px 20px rgba(232, 115, 159, 0.07);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Make buttons and form fields use the cute font too */
+button,
+select,
+input,
+textarea {
+    font-family: inherit;
+}
+
+/* Rounded, bubbly font for headings and key numbers */
+h1, h2, h3, h4,
+.tab-btn,
+.stat-card p,
+.complexity-grid p,
+.status,
+.feature-label {
+    font-family: "Fredoka", "Quicksand", "Segoe UI", Arial, sans-serif;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #fff7fb;
-    color: #49303f;
-    padding: 25px;
+    font-family: "Quicksand", "Nunito", "Segoe UI", Arial, sans-serif;
+    background: var(--background);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
-.container {
-    max-width: 1100px;
-    margin: auto;
+/* ---------- HEADER ---------- */
+
+.header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 22px 6%;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 3px 15px rgba(232, 115, 159, 0.04);
 }
 
-header {
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #f4c6dc;
-    padding-bottom: 25px;
+    gap: 20px;
+}
+
+.header h1 {
+    font-size: 27px;
+    font-weight: 750;
+    color: var(--primary);
+    letter-spacing: -0.5px;
+}
+
+.header p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 3px;
+}
+
+.theme-btn {
+    background: var(--surface-soft);
+    color: var(--primary);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 10px 15px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.25s ease;
+}
+
+.theme-btn:hover {
+    background: #ffe0ec;
+    transform: translateY(-1px);
+}
+
+/* ---------- MAIN CONTAINER ---------- */
+
+.container {
+    max-width: 1400px;
+    width: 90%;
+    margin: 30px auto 55px;
+}
+
+/* ---------- NAVIGATION TABS ---------- */
+
+.tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 8px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    box-shadow: var(--shadow);
     margin-bottom: 30px;
 }
 
-h1 {
-    color: #e66ba4;
-}
-
-header p {
-    margin-top: 10px;
-    color: #ad8299;
-}
-
-button, select {
+.tab-btn {
+    flex: 1;
+    min-width: 100px;
     padding: 12px 18px;
-    border: 1px solid #e58bb5;
-    border-radius: 10px;
-    background: white;
-    color: #c6538c;
+    border: none;
+    border-radius: 9px;
+    background: transparent;
+    color: var(--text-muted);
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
+    transition: 0.25s ease;
+}
+
+.tab-btn:hover {
+    background: var(--surface-soft);
+    color: var(--primary);
+}
+
+.tab-btn.active {
+    background: var(--primary);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(232, 115, 159, 0.22);
+}
+
+/* ---------- SECTION HEADINGS ---------- */
+
+.section {
+    animation: fadeIn 0.35s ease;
+}
+
+.section-heading {
+    margin-bottom: 24px;
+}
+
+.section-heading h2 {
+    font-size: 26px;
+    color: var(--text);
+    margin-bottom: 5px;
+}
+
+.section-heading p {
+    color: var(--text-muted);
     font-size: 15px;
 }
 
-button:hover {
-    background: #fce1ee;
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(7px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
-section {
-    background: white;
-    border: 1px solid #f1c9dc;
-    border-radius: 18px;
+/* ---------- CARDS ---------- */
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 22px;
+    box-shadow: var(--shadow);
+    min-width: 0;
+}
+
+.card h3 {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    color: var(--text);
+}
+
+.controls-card {
     padding: 25px;
-    margin-bottom: 25px;
-    box-shadow: 0 5px 15px #f7e5ee;
 }
 
-h2 {
-    color: #d85f99;
-    margin-bottom: 20px;
+.controls-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 24px;
+    margin-bottom: 24px;
 }
 
-.controls {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    align-items: center;
-}
-
-.controls label {
+.control-group {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    min-width: 0;
+}
+
+.control-group label {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.control-group label span {
+    color: var(--primary);
+    font-weight: 700;
+}
+
+/* ---------- INPUTS & SELECTS ---------- */
+
+select,
+input[type="number"] {
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    background: var(--surface);
+    color: var(--text);
+    font-family: inherit;
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+select:focus,
+input[type="number"]:focus {
+    border-color: var(--primary-light);
+    box-shadow: 0 0 0 3px rgba(240, 143, 180, 0.13);
 }
 
 input[type="range"] {
-    accent-color: #e66ba4;
+    width: 100%;
+    accent-color: var(--primary);
+    cursor: pointer;
+    margin-top: 6px;
 }
 
-#bars {
-    height: 300px;
+/* ---------- BUTTONS ---------- */
+
+.button-group {
     display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 4px;
-    border-bottom: 2px solid #e8b9d0;
-    padding: 15px 5px 0;
+    flex-wrap: wrap;
+    gap: 11px;
+    align-items: center;
 }
 
-.bar {
-    background: #ed91bb;
-    flex: 1;
-    max-width: 35px;
-    border-radius: 5px 5px 0 0;
-    transition: height 0.15s, background 0.15s;
+.button-group button {
+    min-height: 42px;
+    padding: 10px 17px;
+    border-radius: 9px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 650;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.2s ease,
+                box-shadow 0.2s ease;
 }
 
-.bar.compare {
-    background: #f3b34e;
+.button-group button:hover {
+    transform: translateY(-2px);
 }
 
-.bar.sorted {
-    background: #53b78c;
+.primary-btn {
+    background: var(--primary);
+    border: 1px solid var(--primary);
+    color: #ffffff;
 }
 
-.stats {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
+.primary-btn:hover {
+    background: var(--primary-dark);
+    box-shadow: 0 4px 12px rgba(232, 115, 159, 0.2);
 }
 
-.stat {
-    text-align: center;
-    padding: 20px;
-    border: 1px solid #f2c9dc;
-    border-radius: 15px;
+.secondary-btn {
+    background: var(--surface-soft);
+    color: var(--primary);
+    border: 1px solid var(--border);
 }
 
-.stat h3 {
-    color: #d78aad;
-    font-size: 15px;
+.secondary-btn:hover {
+    background: #ffe0ec;
 }
 
-.stat p {
-    font-size: 25px;
-    color: #e66ba4;
-    font-weight: bold;
-    margin-top: 12px;
-}
+/* ---------- VISUALIZATION ---------- */
 
-.complexity {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-}
-
-.complexity div {
-    border: 1px solid #f1c9dc;
-    padding: 20px;
-    border-radius: 12px;
-}
-
-.complexity h3 {
-    color: #bd829e;
-    font-size: 15px;
-    margin-bottom: 12px;
-}
-
-.complexity p {
-    color: #df659d;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-#message {
-    padding: 20px;
-    border-left: 5px solid #e66ba4;
-    background: #fff8fb;
-    border-radius: 10px;
-    margin-top: 15px;
-}
-
-footer {
-    text-align: center;
-    color: #d28bab;
+.visualization-card {
     padding: 25px;
 }
 
-@media(max-width:600px) {
-    header {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-    }
-
-    .stats, .complexity {
-        grid-template-columns: 1fr;
-    }
-
-    #bars {
-        height: 220px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<header>
-    <div>
-        <h1>🌸 Algorithm Visualizer</h1>
-        <p>Understand algorithms through interactive visualizations ✨</p>
-    </div>
-    <button onclick="toggleTheme()">🌙 Toggle Theme</button>
-</header>
-
-<section>
-    <h2>⚙ Algorithm Settings</h2>
-
-    <div class="controls">
-        <label>
-            Select Algorithm
-            <select id="algorithm" onchange="updateInfo()">
-                <option value="bubble">Bubble Sort</option>
-                <option value="selection">Selection Sort</option>
-                <option value="insertion">Insertion Sort</option>
-                <option value="merge">Merge Sort</option>
-                <option value="quick">Quick Sort</option>
-                <option value="counting">Counting Sort</option>
-            </select>
-        </label>
-
-        <label>
-            Array Size: <span id="sizeValue">30</span>
-            <input type="range" id="size" min="5" max="60"
-                   value="30" oninput="changeSize()">
-        </label>
-
-        <label>
-            Speed
-            <input type="range" id="speed" min="1"
-                   max="100" value="50">
-        </label>
-    </div>
-
-    <br>
-
-    <div class="controls">
-        <button onclick="generateArray()">🎲 Generate Array</button>
-        <button onclick="startSort()">▶ Start Sorting</button>
-        <button onclick="pauseSort()">⏸ Pause</button>
-        <button onclick="resetSort()">↻ Reset</button>
-    </div>
-</section>
-
-<section>
-    <h2>📊 Array Visualization</h2>
-
-    <div id="bars"></div>
-
-    <br>
-    <p>🟣 Unsorted &nbsp;&nbsp; 🟠 Comparing
-       &nbsp;&nbsp; 🟢 Sorted</p>
-</section>
-
-<div class="stats">
-    <div class="stat">
-        <h3>Comparisons</h3>
-        <p id="comparisons">0</p>
-    </div>
-
-    <div class="stat">
-        <h3>Swaps</h3>
-        <p id="swaps">0</p>
-    </div>
-
-    <div class="stat">
-        <h3>Current Step</h3>
-        <p id="steps">0</p>
-    </div>
-</div>
-
-<br>
-
-<section>
-    <h2>📚 Algorithm Information</h2>
-
-    <p id="description">
-        Bubble Sort compares neighbouring elements
-        and swaps them when they are in the wrong order.
-    </p>
-
-    <br>
-
-    <div class="complexity">
-        <div>
-            <h3>Best Case</h3>
-            <p id="best">O(n)</p>
-        </div>
-
-        <div>
-            <h3>Average Case</h3>
-            <p id="average">O(n²)</p>
-        </div>
-
-        <div>
-            <h3>Worst Case</h3>
-            <p id="worst">O(n²)</p>
-        </div>
-
-        <div>
-            <h3>Space Complexity</h3>
-            <p id="space">O(1)</p>
-        </div>
-    </div>
-</section>
-
-<section>
-    <h2>Current Action</h2>
-    <div id="message">Ready to begin.</div>
-</section>
-
-<footer>
-    🌸 Algorithm Visualizer | Learn Algorithms Visually 💗
-</footer>
-
-</div>
-
-<script>
-
-let array = [];
-let comparisons = 0;
-let swaps = 0;
-let steps = 0;
-let running = false;
-let paused = false;
-let stopRequested = false;
-
-const information = {
-    bubble: {
-        description: "Bubble Sort compares neighbouring elements and swaps them when they are in the wrong order.",
-        best: "O(n)",
-        average: "O(n²)",
-        worst: "O(n²)",
-        space: "O(1)"
-    },
-
-    selection: {
-        description: "Selection Sort repeatedly finds the smallest element and places it in the correct position.",
-        best: "O(n²)",
-        average: "O(n²)",
-        worst: "O(n²)",
-        space: "O(1)"
-    },
-
-    insertion: {
-        description: "Insertion Sort takes one element at a time and inserts it into its correct position.",
-        best: "O(n)",
-        average: "O(n²)",
-        worst: "O(n²)",
-        space: "O(1)"
-    },
-
-    merge: {
-        description: "Merge Sort divides the array into smaller parts, sorts them and merges them together.",
-        best: "O(n log n)",
-        average: "O(n log n)",
-        worst: "O(n log n)",
-        space: "O(n)"
-    },
-
-    quick: {
-        description: "Quick Sort selects a pivot and partitions the array into smaller and larger elements.",
-        best: "O(n log n)",
-        average: "O(n log n)",
-        worst: "O(n²)",
-        space: "O(log n)"
-    },
-
-    counting: {
-        description: "Counting Sort counts the occurrences of each element and uses these counts to arrange the array.",
-        best: "O(n+k)",
-        average: "O(n+k)",
-        worst: "O(n+k)",
-        space: "O(n+k)"
-    }
-};
-
-function updateInfo() {
-    const key = document.getElementById("algorithm").value;
-    const info = information[key];
-
-    document.getElementById("description").textContent = info.description;
-    document.getElementById("best").textContent = info.best;
-    document.getElementById("average").textContent = info.average;
-    document.getElementById("worst").textContent = info.worst;
-    document.getElementById("space").textContent = info.space;
+.card-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 18px;
 }
 
-function changeSize() {
-    document.getElementById("sizeValue").textContent =
-        document.getElementById("size").value;
-    generateArray();
+.card-heading h3 {
+    margin-bottom: 0;
 }
 
-function generateArray() {
-    if (running) return;
+.status {
+    display: inline-block;
+    background: #ffe4ee;
+    color: var(--primary);
+    border-radius: 20px;
+    padding: 5px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+}
 
-    let size = Number(document.getElementById("size").value);
+/* Sorting bars */
 
-    array = Array.from(
-        {length: size},
-        () => Math.floor(Math.random() * 200) + 10
+.array-container {
+    height: 300px;
+    width: 100%;
+    padding: 12px 5px 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    border-bottom: 2px solid var(--border);
+    border-radius: 5px;
+    background: linear-gradient(
+        to bottom,
+        transparent 24.8%,
+        rgba(240, 143, 180, 0.07) 25%,
+        transparent 25.2%,
+        transparent 49.8%,
+        rgba(240, 143, 180, 0.07) 50%,
+        transparent 50.2%,
+        transparent 74.8%,
+        rgba(240, 143, 180, 0.07) 75%,
+        transparent 75.2%
     );
-
-    comparisons = swaps = steps = 0;
-    updateStats();
-    drawArray();
-    document.getElementById("message").textContent =
-        "New random array generated.";
 }
 
-function drawArray(highlight = [], sorted = []) {
-    const container = document.getElementById("bars");
-    container.innerHTML = "";
-
-    array.forEach((value, index) => {
-        const bar = document.createElement("div");
-        bar.className = "bar";
-        bar.style.height = value + "px";
-
-        if (sorted.includes(index)) {
-            bar.classList.add("sorted");
-        } else if (highlight.includes(index)) {
-            bar.classList.add("compare");
-        }
-
-        container.appendChild(bar);
-    });
+.array-bar {
+    min-height: 3px;
+    transition: height 0.15s ease, background 0.15s ease;
 }
 
-function updateStats() {
-    document.getElementById("comparisons").textContent = comparisons;
-    document.getElementById("swaps").textContent = swaps;
-    document.getElementById("steps").textContent = steps;
+/* Searching boxes */
+
+.search-array {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 100px;
+    padding: 20px 5px;
+    border-radius: 12px;
+    background: var(--surface-soft);
+    border: 1px dashed var(--border);
+    overflow-wrap: anywhere;
 }
 
-function delay() {
-    return 100 - Number(document.getElementById("speed").value);
+.search-array > div {
+    box-shadow: 0 3px 8px rgba(214, 90, 138, 0.12);
+    transition: background 0.2s ease, transform 0.2s ease;
 }
 
-async function wait() {
-    while (paused && !stopRequested) {
-        await new Promise(resolve => setTimeout(resolve, 100));
+.search-array > div:hover {
+    transform: translateY(-2px);
+}
+
+/* ---------- LEGEND ---------- */
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.legend span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 12px;
+}
+
+.legend-box {
+    width: 12px;
+    height: 12px;
+    display: inline-block;
+    border-radius: 3px;
+}
+
+.purple {
+    background: var(--primary-light);
+}
+
+.red {
+    background: var(--red);
+}
+
+.green {
+    background: var(--green);
+}
+
+/* ---------- STATISTICS ---------- */
+
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    margin-bottom: 22px;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 22px 15px;
+    margin-bottom: 0;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(232, 115, 159, 0.1);
+}
+
+.stat-card h4 {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+.stat-card p {
+    color: var(--primary);
+    font-size: 27px;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- INFORMATION ---------- */
+
+.information-card > p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 22px;
+}
+
+.complexity-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    margin-bottom: 22px;
+}
+
+.complexity-grid > div {
+    background: var(--surface-soft);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    padding: 15px;
+}
+
+.complexity-grid h4 {
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 600;
+    margin-bottom: 7px;
+}
+
+.complexity-grid p {
+    color: var(--primary);
+    font-size: 19px;
+    font-weight: 750;
+    overflow-wrap: anywhere;
+}
+
+.action-box,
+.search-result-box {
+    background: var(--surface-soft);
+    border-left: 4px solid var(--primary);
+    padding: 16px 18px;
+    border-radius: 8px;
+    margin-top: 15px;
+}
+
+.action-box h4,
+.search-result-box h4 {
+    color: var(--primary);
+    font-size: 14px;
+    margin-bottom: 5px;
+}
+
+.action-box p,
+.search-result-box p {
+    color: var(--text-muted);
+    font-size: 13px;
+    overflow-wrap: anywhere;
+}
+
+/* ---------- COMING SOON ---------- */
+
+.coming-soon {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 40px 25px;
+}
+
+.coming-soon-icon {
+    font-size: 48px;
+    margin-bottom: 15px;
+}
+
+.coming-soon h3 {
+    margin-bottom: 10px;
+    font-size: 21px;
+}
+
+.coming-soon p {
+    color: var(--text-muted);
+    max-width: 500px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+.feature-label {
+    display: inline-block;
+    background: #ffe4ee;
+    color: var(--primary);
+    padding: 7px 15px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+/* ---------- FOOTER ---------- */
+
+.footer {
+    text-align: center;
+    padding: 24px 15px;
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+/* ==========================================
+   DARK THEME
+========================================== */
+
+body.dark-theme {
+    --background: #2a1822;
+    --surface: #38202d;
+    --surface-soft: #43283a;
+    --text: #ffeef5;
+    --text-muted: #e0b8cb;
+    --border: #5c3a4d;
+    --primary: #ff9fc3;
+    --primary-light: #f78fb8;
+    --primary-dark: #e0679a;
+    --shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+body.dark-theme .header,
+body.dark-theme .footer {
+    background: var(--surface);
+}
+
+body.dark-theme .theme-btn,
+body.dark-theme .secondary-btn {
+    background: var(--surface-soft);
+    color: var(--primary);
+    border-color: var(--border);
+}
+
+body.dark-theme .theme-btn:hover,
+body.dark-theme .secondary-btn:hover {
+    background: #523246;
+}
+
+body.dark-theme .tab-btn:hover {
+    background: var(--surface-soft);
+}
+
+body.dark-theme .tab-btn.active {
+    background: var(--primary-dark);
+    color: #ffffff;
+}
+
+body.dark-theme .status,
+body.dark-theme .feature-label {
+    background: #5a3349;
+    color: #ffc2d9;
+}
+
+body.dark-theme select,
+body.dark-theme input[type="number"] {
+    background: var(--surface-soft);
+    color: var(--text);
+    border-color: var(--border);
+}
+
+body.dark-theme .array-container {
+    border-bottom-color: var(--border);
+}
+
+/* ---------- ACCESSIBILITY ---------- */
+
+button:focus-visible,
+select:focus-visible,
+input:focus-visible {
+    outline: 2px solid var(--primary-light);
+    outline-offset: 3px;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+========================================== */
+
+@media (max-width: 900px) {
+    .container {
+        width: 94%;
     }
 
-    if (stopRequested) throw new Error("Stopped");
+    .controls-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 
-    await new Promise(resolve => setTimeout(resolve, delay()));
-}
+    .complexity-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 
-async function compare(i, j) {
-    comparisons++;
-    steps++;
-    drawArray([i, j]);
-    document.getElementById("message").textContent =
-        `Comparing ${array[i]} and ${array[j]}`;
-    updateStats();
-    await wait();
-}
-
-async function swap(i, j) {
-    [array[i], array[j]] = [array[j], array[i]];
-    swaps++;
-    drawArray([i, j]);
-    updateStats();
-    await wait();
-}
-
-async function write(index, value) {
-    array[index] = value;
-    steps++;
-    drawArray([index]);
-    updateStats();
-    await wait();
-}
-
-// BUBBLE SORT
-async function bubbleSort() {
-    for (let i = 0; i < array.length; i++) {
-        for (let j = 0; j < array.length - i - 1; j++) {
-            await compare(j, j + 1);
-
-            if (array[j] > array[j + 1]) {
-                await swap(j, j + 1);
-            }
-        }
+    .array-container {
+        height: 250px;
     }
 }
 
-// SELECTION SORT
-async function selectionSort() {
-    for (let i = 0; i < array.length - 1; i++) {
-        let min = i;
+@media (max-width: 600px) {
+    .header {
+        padding: 17px 4%;
+    }
 
-        for (let j = i + 1; j < array.length; j++) {
-            await compare(min, j);
+    .header-content {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 12px;
+    }
 
-            if (array[j] < array[min]) {
-                min = j;
-            }
-        }
+    .header h1 {
+        font-size: 23px;
+    }
 
-        if (min !== i) await swap(i, min);
+    .header p {
+        font-size: 12px;
+    }
+
+    .container {
+        width: 94%;
+        margin-top: 20px;
+    }
+
+    .tabs {
+        gap: 6px;
+        padding: 6px;
+        margin-bottom: 22px;
+    }
+
+    .tab-btn {
+        min-width: 0;
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+
+    .section-heading h2 {
+        font-size: 23px;
+    }
+
+    .section-heading p {
+        font-size: 13px;
+    }
+
+    .card {
+        padding: 18px;
+        border-radius: 13px;
+    }
+
+    .controls-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+
+    .button-group {
+        gap: 8px;
+    }
+
+    .button-group button {
+        flex: 1 1 42%;
+        padding: 10px;
+        font-size: 12px;
+    }
+
+    .card-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .array-container {
+        height: 210px;
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .stat-card {
+        padding: 17px;
+    }
+
+    .stat-card p {
+        font-size: 24px;
+    }
+
+    .complexity-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    .complexity-grid > div {
+        padding: 12px;
+    }
+
+    .complexity-grid p {
+        font-size: 17px;
+    }
+
+    .legend {
+        gap: 12px;
+    }
+
+    .search-array {
+        gap: 7px;
+        padding: 15px 5px;
+    }
+
+    .search-array > div {
+        width: 39px !important;
+        height: 39px !important;
+        font-size: 12px;
     }
 }
 
-// INSERTION SORT
-async function insertionSort() {
-    for (let i = 1; i < array.length; i++) {
-        let key = array[i];
-        let j = i - 1;
-
-        while (j >= 0) {
-            await compare(j, j + 1);
-
-            if (array[j] > key) {
-                await write(j + 1, array[j]);
-                j--;
-            } else {
-                break;
-            }
-        }
-
-        await write(j + 1, key);
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
     }
 }
 
-// MERGE SORT
-async function mergeSort() {
-    async function merge(left, mid, right) {
-        let L = array.slice(left, mid + 1);
-        let R = array.slice(mid + 1, right + 1);
+/* ========================================
+   TREE VISUALIZER
+======================================== */
 
-        let i = 0, j = 0, k = left;
-
-        while (i < L.length && j < R.length) {
-            comparisons++;
-            steps++;
-            updateStats();
-            drawArray([k]);
-            await wait();
-
-            if (L[i] <= R[j]) {
-                await write(k++, L[i++]);
-            } else {
-                await write(k++, R[j++]);
-            }
-        }
-
-        while (i < L.length) await write(k++, L[i++]);
-        while (j < R.length) await write(k++, R[j++]);
-    }
-
-    async function divide(left, right) {
-        if (left >= right) return;
-
-        let mid = Math.floor((left + right) / 2);
-
-        await divide(left, mid);
-        await divide(mid + 1, right);
-        await merge(left, mid, right);
-    }
-
-    await divide(0, array.length - 1);
+.tree-canvas {
+    width: 100%;
+    min-height: 320px;
+    padding: 24px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid #f9d2e1;
+    border-radius: 14px;
 }
 
-// QUICK SORT
-async function quickSort() {
-    async function partition(low, high) {
-        let pivot = array[high];
-        let i = low - 1;
-
-        for (let j = low; j < high; j++) {
-            await compare(j, high);
-
-            if (array[j] < pivot) {
-                i++;
-                if (i !== j) await swap(i, j);
-            }
-        }
-
-        await swap(i + 1, high);
-        return i + 1;
-    }
-
-    async function sort(low, high) {
-        if (low < high) {
-            let pi = await partition(low, high);
-            await sort(low, pi - 1);
-            await sort(pi + 1, high);
-        }
-    }
-
-    await sort(0, array.length - 1);
+.tree-empty-message,
+.graph-empty-message {
+    color: #a47a8f;
+    text-align: center;
+    line-height: 1.7;
 }
 
-// COUNTING SORT
-async function countingSort() {
-    let max = Math.max(...array);
-    let count = new Array(max + 1).fill(0);
+.tree-svg {
+    display: block;
+    flex-shrink: 0;
+    overflow: visible;
+}
 
-    for (let value of array) {
-        count[value]++;
-        comparisons++;
-        updateStats();
-        await wait();
+.tree-edge {
+    stroke: #f2a7c3;
+    stroke-width: 2.5;
+    fill: none;
+    transition: stroke 0.25s ease;
+}
+
+.tree-edge.highlight {
+    stroke: #22a06b;
+    stroke-width: 4;
+}
+
+.tree-node {
+    cursor: default;
+}
+
+.tree-node-circle {
+    fill: #ffe3ee;
+    stroke: #ec7fa9;
+    stroke-width: 2.5;
+    transition: fill 0.25s ease, stroke 0.25s ease;
+}
+
+.tree-node-text {
+    fill: #7a2e50;
+    font-size: 15px;
+    font-weight: 700;
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+}
+
+.tree-node.found .tree-node-circle,
+.tree-node.highlight .tree-node-circle,
+.tree-node.visited .tree-node-circle {
+    fill: #c9f7dc;
+    stroke: #20965d;
+}
+
+.tree-node.found .tree-node-text,
+.tree-node.highlight .tree-node-text,
+.tree-node.visited .tree-node-text {
+    fill: #155b3a;
+}
+
+.tree-node.active .tree-node-circle {
+    fill: #ffc2d9;
+    stroke: #d6447f;
+    stroke-width: 4;
+}
+
+.tree-node.active .tree-node-text {
+    fill: #5e1f3d;
+}
+
+.tree-canvas .tree-svg {
+    max-width: none;
+}
+
+
+/* ========================================
+   GRAPH VISUALIZER
+======================================== */
+
+.graph-canvas {
+    width: 100%;
+    min-height: 360px;
+    padding: 20px;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--card-bg, #ffffff);
+    border: 1px solid #f9d2e1;
+    border-radius: 14px;
+}
+
+.graph-svg {
+    display: block;
+    flex-shrink: 0;
+    overflow: visible;
+}
+
+.graph-edge {
+    stroke: #f2a7c3;
+    stroke-width: 2.5;
+    fill: none;
+    transition: stroke 0.25s ease;
+}
+
+.graph-edge.highlight,
+.graph-edge.path-edge {
+    stroke: #22a06b;
+    stroke-width: 4;
+}
+
+.graph-node {
+    cursor: default;
+}
+
+.graph-node-circle {
+    fill: #ffe3ee;
+    stroke: #ec7fa9;
+    stroke-width: 2.5;
+    transition: fill 0.25s ease, stroke 0.25s ease;
+}
+
+.graph-node-text {
+    fill: #7a2e50;
+    font-size: 15px;
+    font-weight: 700;
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+}
+
+.graph-node.visited .graph-node-circle,
+.graph-node.highlight .graph-node-circle,
+.graph-node.path-node .graph-node-circle {
+    fill: #c9f7dc;
+    stroke: #20965d;
+}
+
+.graph-node.visited .graph-node-text,
+.graph-node.highlight .graph-node-text,
+.graph-node.path-node .graph-node-text {
+    fill: #155b3a;
+}
+
+.graph-node.start-node .graph-node-circle {
+    fill: #ffc2d9;
+    stroke: #d6447f;
+    stroke-width: 4;
+}
+
+.graph-node.target-node .graph-node-circle {
+    fill: #ffe4b8;
+    stroke: #dc8a18;
+    stroke-width: 3.5;
+}
+
+.graph-node.target-node .graph-node-text {
+    fill: #78420a;
+}
+
+
+/* ========================================
+   VISUALIZER LEGEND
+======================================== */
+
+.legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+    margin-top: 18px;
+    color: var(--text-color, #7a5568);
+    font-size: 14px;
+}
+
+.legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.legend-box {
+    width: 13px;
+    height: 13px;
+    display: inline-block;
+    border-radius: 4px;
+    background: #ffe3ee;
+    border: 2px solid #ec7fa9;
+}
+
+.legend-box.purple {
+    background: #ffe3ee;
+    border-color: #ec7fa9;
+}
+
+.legend-box.green {
+    background: #c9f7dc;
+    border-color: #20965d;
+}
+
+
+/* ========================================
+   TREE & GRAPH RESPONSIVE DESIGN
+======================================== */
+
+@media (max-width: 768px) {
+    .tree-canvas,
+    .graph-canvas {
+        min-height: 280px;
+        padding: 12px;
+        justify-content: flex-start;
     }
 
-    let index = 0;
+    .tree-svg,
+    .graph-svg {
+        max-width: none;
+    }
 
-    for (let i = 0; i <= max; i++) {
-        while (count[i] > 0) {
-            await write(index++, i);
-            count[i]--;
-        }
+    .legend {
+        gap: 12px;
+        font-size: 12px;
     }
 }
 
-async function startSort() {
-    if (running) return;
-
-    running = true;
-    paused = false;
-    stopRequested = false;
-
-    document.getElementById("message").textContent =
-        "Sorting in progress...";
-
-    try {
-        const choice = document.getElementById("algorithm").value;
-
-        if (choice === "bubble") await bubbleSort();
-        if (choice === "selection") await selectionSort();
-        if (choice === "insertion") await insertionSort();
-        if (choice === "merge") await mergeSort();
-        if (choice === "quick") await quickSort();
-        if (choice === "counting") await countingSort();
-
-        if (!stopRequested) {
-            drawArray([], array.map((_, i) => i));
-            document.getElementById("message").textContent =
-                "Sorting completed successfully! 🎉";
-        }
-    } catch (error) {
-        document.getElementById("message").textContent =
-            "Sorting stopped.";
-    }
-
-    running = false;
-    paused = false;
-}
-
-function pauseSort() {
-    if (running) {
-        paused = !paused;
-        document.getElementById("message").textContent =
-            paused ? "Sorting paused." : "Sorting resumed.";
+@media (max-width: 480px) {
+    .tree-canvas,
+    .graph-canvas {
+        min-height: 240px;
+        padding: 8px;
     }
 }
 
-function resetSort() {
-    stopRequested = true;
-    paused = false;
-    running = false;
+/* =========================================
+   GRAPH VISUALIZER - PINK & WHITE THEME
+========================================= */
 
-    comparisons = swaps = steps = 0;
-    updateStats();
-    generateArray();
+.graph-controls-card {
+    margin-bottom: 24px;
 }
 
-function toggleTheme() {
-    const dark = document.body.dataset.theme !== "dark";
-
-    document.body.dataset.theme = dark ? "dark" : "light";
-    document.body.style.background = dark ? "#241b25" : "#fff7fb";
-    document.body.style.color = dark ? "#ffffff" : "#49303f";
-
-    document.querySelectorAll("section").forEach(section => {
-        section.style.background = dark ? "#382b39" : "#ffffff";
-    });
+.graph-controls-card .card-heading {
+    margin-bottom: 20px;
 }
 
-generateArray();
-updateInfo();
+.graph-helper-text {
+    margin-top: 16px;
+    color: #a47a8f;
+    font-size: 13px;
+    line-height: 1.6;
+}
 
-</script>
+.graph-subtitle {
+    margin-top: 5px;
+    color: #a47a8f;
+    font-size: 13px;
+    font-weight: 400;
+}
 
-</body>
-</html>
+
+/* Graph canvas */
+
+.graph-visualization-card {
+    overflow: hidden;
+}
+
+.graph-canvas {
+    width: 100%;
+    min-height: 390px;
+    padding: 24px;
+    overflow: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #fffafc 0%, #ffeef4 100%);
+    border: 1px solid #f9d2e1;
+    border-radius: 16px;
+    position: relative;
+}
+
+.graph-empty-state {
+    max-width: 320px;
+    padding: 24px;
+    text-align: center;
+}
+
+.graph-empty-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 20px;
+    background: #ffe3ee;
+    color: #e0568e;
+    font-size: 34px;
+}
+
+.graph-empty-state h4 {
+    margin: 0 0 8px;
+    color: #7a2e50;
+    font-size: 17px;
+}
+
+.graph-empty-state p {
+    margin: 0;
+    color: #a47a8f;
+    font-size: 13px;
+    line-height: 1.7;
+}
+
+
+/* SVG graph and connections */
+
+.graph-svg {
+    display: block;
+    flex-shrink: 0;
+    overflow: visible;
+}
+
+.graph-edge {
+    stroke: #f2a7c3;
+    stroke-width: 2.5;
+    fill: none;
+    stroke-linecap: round;
+    transition: stroke 0.25s ease, stroke-width 0.25s ease;
+}
+
+.graph-edge.highlight,
+.graph-edge.path-edge {
+    stroke: #22a06b;
+    stroke-width: 4;
+}
+
+
+/* Graph nodes */
+
+.graph-node {
+    cursor: default;
+}
+
+.graph-node-circle {
+    fill: #ffe3ee;
+    stroke: #ec7fa9;
+    stroke-width: 2.5;
+    transition: fill 0.25s ease, stroke 0.25s ease;
+}
+
+.graph-node-text {
+    fill: #7a2e50;
+    font-size: 15px;
+    font-weight: 700;
+    text-anchor: middle;
+    dominant-baseline: central;
+    pointer-events: none;
+}
+
+.graph-node.visited .graph-node-circle,
+.graph-node.highlight .graph-node-circle,
+.graph-node.path-node .graph-node-circle {
+    fill: #c9f7dc;
+    stroke: #20965d;
+}
+
+.graph-node.visited .graph-node-text,
+.graph-node.highlight .graph-node-text,
+.graph-node.path-node .graph-node-text {
+    fill: #155b3a;
+}
+
+.graph-node.start-node .graph-node-circle {
+    fill: #ffc2d9;
+    stroke: #d6447f;
+    stroke-width: 4;
+}
+
+.graph-node.target-node .graph-node-circle {
+    fill: #ffe4b8;
+    stroke: #dc8a18;
+    stroke-width: 3.5;
+}
+
+.graph-node.target-node .graph-node-text {
+    fill: #78420a;
+}
+
+
+/* Legend */
+
+.graph-legend {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 18px;
+    margin-top: 18px;
+    color: var(--text-color, #7a5568);
+    font-size: 13px;
+}
+
+.graph-legend span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* Graph statistics */
+
+.graph-stats-grid {
+    margin-top: 24px;
+}
+
+.graph-stat-caption {
+    display: block;
+    margin-top: 5px;
+    color: #a47a8f;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+
+/* Results */
+
+.graph-results-card {
+    margin-top: 24px;
+}
+
+.graph-results-card .action-box,
+.graph-results-card .search-result-box {
+    margin-top: 16px;
+}
+
+.graph-results-card p {
+    line-height: 1.7;
+    overflow-wrap: anywhere;
+}
+
+
+/* Responsive layout */
+
+@media (max-width: 768px) {
+    .graph-canvas {
+        min-height: 300px;
+        padding: 12px;
+        justify-content: flex-start;
+    }
+
+    .graph-svg {
+        max-width: none;
+    }
+
+    .graph-legend {
+        gap: 12px;
+        font-size: 12px;
+    }
+
+    .graph-empty-state {
+        margin: auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .graph-canvas {
+        min-height: 260px;
+        padding: 8px;
+    }
+
+    .graph-empty-icon {
+        width: 52px;
+        height: 52px;
+        font-size: 28px;
+    }
+
+    .graph-empty-state h4 {
+        font-size: 15px;
+    }
+}
+/* Graph Visualizer Input Fields */
+input[type="text"],
+input:not([type]) {
+    width: 100%;
+    box-sizing: border-box;
+    height: 48px;
+    padding: 12px 16px;
+    border: 1px solid #f9d2e1;
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: #4a2c3a;
+    font-size: 15px;
+    font-family: inherit;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Placeholder */
+input[type="text"]::placeholder,
+input:not([type])::placeholder {
+    color: #c0a0b0;
+}
+
+/* Focus effect */
+input[type="text"]:focus,
+input:not([type]):focus {
+    border-color: #e8739f;
+    box-shadow: 0 0 0 3px rgba(232, 115, 159, 0.12);
+}
+
+/* Make input fields consistent inside graph forms */
+#graph input {
+    width: 100%;
+    box-sizing: border-box;
+}
